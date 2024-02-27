@@ -24,7 +24,7 @@
     <div class="card mb-4" style="width: 60rem;">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="{{ url_for('static', filename='games_images/' + game.folder_name + '/poster.jpg') }}"
+                <img src="{{ generate_public_url('data/' + game.folder_name + '/poster.jpg') }}"
                      class="img-fluid rounded-start">
             </div>
             <div class="col-md-8">
