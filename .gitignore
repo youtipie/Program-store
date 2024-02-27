@@ -5,3 +5,9 @@ __pycache__/
 *.db
 
 /test
+
+temp.py
+
+static/games_images/
+
+instance/game_files/
