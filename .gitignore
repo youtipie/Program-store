@@ -6,8 +6,6 @@ __pycache__/
 
 /test
 
-temp.py
-
 static/games_images/
 
 instance/game_files/
