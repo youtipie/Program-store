@@ -71,7 +71,8 @@ def index():
 def category(category_name: str):
     categories = db.session.query(Category).all()
     return render_template("index.html", games=db.session.query(Category).filter_by(name=category_name).first().games,
-                           heading=category_name.title(), categories=categories)
+                           heading=category_name.title(), categories=categories,
+                           generate_public_url=generate_public_url)
 
 
 if __name__ == '__main__':
