@@ -6,8 +6,13 @@ from db import db
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
+    nickname = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+    is_subscribed = db.Column(db.Boolean, default=False)
+    avatar_path = db.Column(db.String(150), unique=True)
+    reg_date = db.Column(db.DateTime(150), unique=True)
+    comments = relationship('Comment', back_populates='user')
 
 
 class Game(db.Model):
@@ -27,6 +32,10 @@ class Game(db.Model):
     cache_size = db.Column(db.Float, default=0)
     folder_name = db.Column(db.String(200), nullable=False, unique=True)
     images = relationship('Image', backref='game', lazy=True)
+    rating = db.Column(db.Float, default=0)
+    rating_count = db.Column(db.Integer, default=0)
+
+    comments = relationship('Comment', back_populates='game')
 
 
 class Image(db.Model):
@@ -39,3 +48,14 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     games = db.relationship("Game", backref="category")
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = relationship('User', back_populates='comments')
+
+    game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
+    game = relationship('Game', back_populates='comments')
