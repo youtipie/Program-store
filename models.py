@@ -34,6 +34,7 @@ class Game(db.Model):
     images = relationship('Image', backref='game', lazy=True)
     rating = db.Column(db.Float, default=0)
     rating_count = db.Column(db.Integer, default=0)
+    popularity = db.Column(db.Integer, default=0)
 
     comments = relationship('Comment', back_populates='game')
 
