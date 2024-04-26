@@ -6,14 +6,14 @@ __pycache__/
 
 /test
 
-/instance/game_files/
+app/instance/game_files/
 
-/instance/data/
+app/instance/data/
 
-/static/data/
+app/static/data/
 
-/static/games_images/
+app/static/games_images/
 
-/instance/data.json
+app/instance/data.json
 
 credentials.py
