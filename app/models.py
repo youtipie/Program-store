@@ -1,6 +1,7 @@
+import datetime
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
-from app.db import db
+from app import db
 
 
 class User(UserMixin, db.Model):
@@ -53,6 +54,7 @@ class Category(db.Model):
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime, default=lambda: datetime.datetime.utcnow())
     content = db.Column(db.Text, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, flash
-from app import app, login_manager, generate_public_url
+from app import app, login_manager
+from app.aws import generate_public_url
 from app.models import *
 from app.forms import *
 
