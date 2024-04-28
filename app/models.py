@@ -1,19 +1,26 @@
 import datetime
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    nickname = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(256), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     is_subscribed = db.Column(db.Boolean, default=False)
     avatar_path = db.Column(db.String(150), unique=True)
     reg_date = db.Column(db.DateTime, default=lambda: datetime.datetime.utcnow())
     comments = relationship('Comment', back_populates='user')
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
 
 class Game(db.Model):
