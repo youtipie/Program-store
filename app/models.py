@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean, default=False)
     is_subscribed = db.Column(db.Boolean, default=False)
     avatar_path = db.Column(db.String(150), unique=True)
-    reg_date = db.Column(db.DateTime(150), unique=True)
+    reg_date = db.Column(db.DateTime, default=lambda: datetime.datetime.utcnow())
     comments = relationship('Comment', back_populates='user')
 
 
