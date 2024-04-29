@@ -25,4 +25,4 @@ login_manager.login_view = "login"
 login_manager.login_message = "Вам потрібно увійти, щоб відвідати цю сторінку!"
 login_manager.init_app(app)
 
-from app import routes
+from app import routes, models, errors
