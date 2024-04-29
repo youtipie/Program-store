@@ -6,6 +6,8 @@ __pycache__/
 
 /test
 
+/logs
+
 app/instance/game_files/
 
 app/instance/data/
@@ -17,3 +19,5 @@ app/static/games_images/
 app/instance/data.json
 
 credentials.py
+
+.env
