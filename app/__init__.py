@@ -7,6 +7,7 @@ from flask import Flask, render_template, redirect, url_for, flash, abort, reque
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_mail import Mail
 from config import Config
 import functools
 
@@ -17,6 +18,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:admin@localhost/P
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 migrate = Migrate(app, db)
+mail = Mail(app)
 
 db.init_app(app)
 with app.app_context():

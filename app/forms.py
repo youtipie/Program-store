@@ -27,3 +27,15 @@ class RegisterForm(FlaskForm):
         user = db.session.query(User).filter_by(username=email.data).first()
         if user is not None:
             raise ValidationError("Користувач з такою поштою уже існує. Увійдіть або використайте іншу пошту.")
+
+
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField("Пошта", validators=[DataRequired(), Email()])
+    submit = SubmitField("Відновити")
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField("Пароль", validators=[DataRequired()])
+    password2 = PasswordField(
+        'Повторіть Пароль', validators=[DataRequired(), EqualTo("password")])
+    submit = SubmitField("Підтвердити")
