@@ -38,4 +38,11 @@
     {% endfor %}
 </div>
 
+{% if prev_url %}
+<a href="{{ prev_url }}">Back</a>
+{% endif %}
+{% if next_url %}
+<a href="{{ next_url }}">Next</a>
+{% endif %}
+
 {% endblock %}
