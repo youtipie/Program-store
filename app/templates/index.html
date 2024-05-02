@@ -10,10 +10,10 @@
         Обрати категорію
     </button>
     <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="{{ url_for('index') }}">Усі</a>
+        <li><a class="dropdown-item" href="{{ url_for('main.index') }}">Усі</a>
         </li>
         {% for category in categories %}
-        <li><a class="dropdown-item" href="{{ url_for('category', category_name=category.name) }}">{{category.name}}</a>
+        <li><a class="dropdown-item" href="{{ url_for('main.category', category_name=category.name) }}">{{category.name}}</a>
         </li>
         {% endfor %}
     </ul>
