@@ -30,6 +30,12 @@
         {% endfor %}
     </p>
     <a href="{{ url_for('auth.reset_password_request') }}">Forgot password</a>
+    <p>
+        {{ form.recaptcha }}
+        {% for error in form.recaptcha.errors %}
+        <span style="color: red;">[Вам потрібно пройти перевірку!]</span>
+        {% endfor %}
+    </p>
     <p>{{ form.submit() }}</p>
 </form>
 
