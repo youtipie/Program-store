@@ -11,8 +11,8 @@ from flask import current_app
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False, index=True)
+    username = db.Column(db.String(100), unique=True, nullable=False, index=True)
     password = db.Column(db.String(256), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     is_subscribed = db.Column(db.Boolean, default=False)
@@ -45,7 +45,7 @@ class User(UserMixin, db.Model):
 
 class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(150), nullable=False)
+    title = db.Column(db.String(150), nullable=False, index=True)
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
     description = db.Column(db.Text, nullable=False)
 
@@ -60,9 +60,9 @@ class Game(db.Model):
     cache_size = db.Column(db.Float, default=0)
     folder_name = db.Column(db.String(200), nullable=False, unique=True)
     images = relationship('Image', backref='game', lazy=True)
-    rating = db.Column(db.Float, default=0)
+    rating = db.Column(db.Float, default=0, index=True)
     rating_count = db.Column(db.Integer, default=0)
-    popularity = db.Column(db.Integer, default=0)
+    popularity = db.Column(db.Integer, default=0, index=True)
 
     comments = relationship('Comment', back_populates='game')
 
@@ -81,7 +81,7 @@ class Category(db.Model):
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, default=lambda: datetime.datetime.utcnow())
+    date = db.Column(db.DateTime, default=lambda: datetime.datetime.utcnow(), index=True)
     content = db.Column(db.Text, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
