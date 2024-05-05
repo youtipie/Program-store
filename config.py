@@ -17,3 +17,4 @@ class Config:
     ADMINS = ["youtipie@gmail.com"]
     RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
     RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
+    REDIS_URL = os.environ.get("REDIS_URL")

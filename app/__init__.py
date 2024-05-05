@@ -7,6 +7,8 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
 from config import Config
+from redis import Redis
+import rq
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -24,6 +26,10 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     login_manager.init_app(app)
     mail.init_app(app)
+    with app.app_context():
+        db.create_all()
+    app.redis = Redis.from_url(app.config["REDIS_URL"])
+    app.task_queue = rq.Queue("nemesis-tasks", connection=app.redis)
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
