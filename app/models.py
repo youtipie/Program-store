@@ -2,6 +2,7 @@ import datetime
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from app.aws import generate_public_url
 from hashlib import md5
 import jwt
 from time import time
@@ -65,6 +66,26 @@ class Game(db.Model):
     popularity = db.Column(db.Integer, default=0, index=True)
 
     comments = relationship('Comment', back_populates='game')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "poster": generate_public_url("data/" + self.folder_name + "/poster.jpg"),
+            "title": self.title,
+            "category_name": self.category.name,
+            "category_id": self.category_id,
+            "description": self.description,
+            "is_paid": self.is_paid,
+            "version": self.version,
+            "apk_name": self.apk_name,
+            "apk_size": self.apk_size,
+            "cache_name": self.cache_name,
+            "cache_size": self.cache_size,
+            "images": [generate_public_url("data/" + image.path) for image in self.images],
+            "rating": self.rating,
+            "rating_count": self.rating_count,
+            "popularity": self.popularity
+        }
 
 
 class Image(db.Model):
