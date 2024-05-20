@@ -4,6 +4,9 @@ from app.aws import generate_public_url
 from app.models import User, Category, Game
 from app.api import bp
 from sqlalchemy import func, select
+import jwt
+from jwt.exceptions import InvalidTokenError
+from time import time
 
 
 @bp.route("/games")
@@ -68,3 +71,14 @@ def get_games():
         "per_page": current_app.config["ITEMS_PER_PAGE"],
         "games": [game.to_dict() if not title else game[0].to_dict() for game in games]
     })
+
+
+@bp.route("/add_popularity")
+def add_popularity():
+    token = request.args.get("token", "", type=str)
+    game = Game.verify_popularity_token(token)
+    if not game:
+        return jsonify({"success": False, "message": "Bad token"}), 400
+    game.popularity += 1
+    db.session.commit()
+    return {"success": True}, 200
