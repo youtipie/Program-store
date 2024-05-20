@@ -1,7 +1,7 @@
 from flask import current_app, request, url_for, jsonify, redirect
 from app import db
 from app.aws import generate_public_url
-from app.models import User, Category, Game
+from app.models import User, Category, Game, Comment
 from app.api import bp
 from sqlalchemy import func, select
 import jwt
@@ -70,7 +70,7 @@ def get_games():
         "total_pages": total_pages,
         "per_page": current_app.config["ITEMS_PER_PAGE"],
         "games": [game.to_dict() if not title else game[0].to_dict() for game in games]
-    })
+    }), 200
 
 
 @bp.route("/add_popularity")
@@ -82,3 +82,42 @@ def add_popularity():
     game.popularity += 1
     db.session.commit()
     return {"success": True}, 200
+
+
+@bp.route("/comments")
+def get_comments():
+    try:
+        page = request.args.get("page", 1, type=int)
+        game_id = request.args.get("game_id", type=int)
+        game = db.session.query(Game).filter_by(id=game_id).first()
+        if not game:
+            return jsonify({"success": False, "message": "No game with such id"}), 404
+    except ValueError or TypeError:
+        return jsonify({"success": False, "message": "Bad values"}), 400
+
+    comments = db.session.query(Comment).paginate(
+        page=page,
+        per_page=current_app.config[
+            "ITEMS_PER_PAGE"],
+        error_out=False
+    )
+
+    next_page = comments.next_num if comments.has_next else None
+    prev_page = comments.prev_num if comments.has_prev else None
+
+    total_pages = comments.pages
+    if total_pages < page:
+        return redirect(
+            url_for("api.get_comments",
+                    page=total_pages,
+                    game_id=game_id
+                    ))
+    return jsonify({
+        "success": True,
+        "comments": [comment.to_dict() for comment in comments],
+        "next_url": next_page,
+        "prev_url": prev_page,
+        "total_games": comments.total,
+        "total_pages": total_pages,
+        "per_page": current_app.config["ITEMS_PER_PAGE"],
+    }), 200

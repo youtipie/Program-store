@@ -123,3 +123,12 @@ class Comment(db.Model):
 
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
     game = relationship('Game', back_populates='comments')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "date": self.date,
+            "content": self.content,
+            "username": self.user.username,
+            "user_pfp": self.user.avatar(256)
+        }
