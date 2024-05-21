@@ -1,6 +1,6 @@
 import unittest
 from app import create_app, db
-from app.models import User, Category, Game, Image, Comment
+from app.models import User, Category, Game, Image, Comment, UserGameRating
 from app.aws import generate_public_url
 from config import Config
 from sqlalchemy import text
@@ -347,6 +347,47 @@ class APITestCase(BaseTestCase):
         # Test pagination redirect
         response = self.client.get(f'/api/comments?game_id={self.game.id}&page=99')
         self.assertEqual(response.status_code, 302)
+
+
+class UserGameRatingTestCase(BaseTestCase):
+    def setUp(self) -> None:
+        super(UserGameRatingTestCase, self).setUp()
+        self.user = User(username="john", email="john@example.com")
+        self.user.set_password("password")
+        db.session.add(self.user)
+        db.session.commit()
+
+        self.category = Category(name="Action")
+        db.session.add(self.category)
+        db.session.commit()
+
+        self.game = Game(
+            title="Sample Game",
+            category_id=self.category.id,
+            description="A fun game",
+            is_paid=True,
+            version="1.0",
+            apk_name="sample_game.apk",
+            apk_size=50.5,
+            folder_name="sample_game"
+        )
+        db.session.add(self.game)
+        db.session.commit()
+
+    def test_create_record(self):
+        db.session.add(UserGameRating(
+            user=self.user,
+            game=self.game,
+            rating=2
+        ))
+        db.session.commit()
+
+        rates = db.session.query(UserGameRating).all()
+        self.assertIsNotNone(rates)
+        self.assertEqual(len(rates), 1)
+        self.assertEqual(rates[-1].user, self.user)
+        self.assertEqual(rates[-1].game, self.game)
+        self.assertEqual(rates[-1].rating, 2)
 
 
 if __name__ == '__main__':
