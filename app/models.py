@@ -17,8 +17,8 @@ class UserGameRating(db.Model):
     game_id = db.Column("game_id", db.Integer, db.ForeignKey("game.id"), primary_key=True)
     rating = db.Column("rating", db.Integer, nullable=True)
 
-    user = db.relationship("User", backref="users_rated")
-    game = db.relationship("Game", backref="games_rated")
+    user = db.relationship("User", backref="games_rated")
+    game = db.relationship("Game", backref="users_rated")
 
 
 class User(UserMixin, db.Model):
