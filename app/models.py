@@ -11,6 +11,16 @@ from app import db
 from flask import current_app
 
 
+class UserGameRating(db.Model):
+    __tablename__ = "user_game_rating"
+    user_id = db.Column("user_id", db.Integer, db.ForeignKey("user.id"), primary_key=True)
+    game_id = db.Column("game_id", db.Integer, db.ForeignKey("game.id"), primary_key=True)
+    rating = db.Column("rating", db.Integer, nullable=True)
+
+    user = db.relationship("User", backref="users_rated")
+    game = db.relationship("Game", backref="games_rated")
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True, nullable=False, index=True)
