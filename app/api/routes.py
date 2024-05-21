@@ -1,6 +1,6 @@
 from flask import current_app, request, url_for, jsonify, redirect
 from app import db
-from app.models import User, Category, Game, Comment
+from app.models import User, Category, Game, Comment, UserGameRating
 from app.api import bp
 from sqlalchemy import func, select
 
@@ -117,3 +117,16 @@ def get_comments():
         "total_pages": total_pages,
         "per_page": current_app.config["ITEMS_PER_PAGE"],
     }), 200
+
+
+@bp.route("/rate_game", methods=["GET"])
+def rate_game():
+    token = request.args.get("token", "", type=str)
+
+    game, user, rating = Game.verify_rating_token(token)
+    if rating:
+        db.session.add(UserGameRating(user=user, game=game, rating=rating))
+        db.session.commit()
+        return jsonify({"success": True, "message": "Rating successfully added"}), 200
+    else:
+        return jsonify({"success": False, "message": "User have already voted or token is invalid"}), 400

@@ -90,6 +90,26 @@ class Game(db.Model):
             return None
         return db.session.query(Game).filter_by(id=game_id).first()
 
+    def create_rating_token(self, user_id, rating, expires_in=600):
+        return jwt.encode({"game_id": self.id, "user_id": user_id, "rating": rating, "exp": time() + expires_in},
+                          current_app.config['SECRET_KEY'], algorithm="HS256")
+
+    @staticmethod
+    def verify_rating_token(token):
+        try:
+            data = jwt.decode(token, current_app.config['SECRET_KEY'], algorithms=["HS256"])
+            game_id = data["game_id"]
+            user_id = data["user_id"]
+            rating = data["rating"]
+        except InvalidTokenError or KeyError or TypeError:
+            return None, None, None
+        user = db.session.query(User).filter_by(id=user_id).first()
+        game = db.session.query(Game).filter_by(id=game_id).first()
+        if game not in [g.game for g in user.games_rated]:
+            return game, user, rating
+        else:
+            return None, None, None
+
     def to_dict(self):
         return {
             "id": self.id,
