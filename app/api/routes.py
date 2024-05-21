@@ -1,12 +1,8 @@
 from flask import current_app, request, url_for, jsonify, redirect
 from app import db
-from app.aws import generate_public_url
 from app.models import User, Category, Game, Comment
 from app.api import bp
 from sqlalchemy import func, select
-import jwt
-from jwt.exceptions import InvalidTokenError
-from time import time
 
 
 @bp.route("/games")
@@ -64,8 +60,8 @@ def get_games():
                     ))
     return jsonify({
         "success": True,
-        "next_url": next_page,
-        "prev_url": prev_page,
+        "next_page": next_page,
+        "prev_page": prev_page,
         "total_games": games.total,
         "total_pages": total_pages,
         "per_page": current_app.config["ITEMS_PER_PAGE"],
@@ -115,9 +111,9 @@ def get_comments():
     return jsonify({
         "success": True,
         "comments": [comment.to_dict() for comment in comments],
-        "next_url": next_page,
-        "prev_url": prev_page,
-        "total_games": comments.total,
+        "next_page": next_page,
+        "prev_page": prev_page,
+        "total_comments": comments.total,
         "total_pages": total_pages,
         "per_page": current_app.config["ITEMS_PER_PAGE"],
     }), 200

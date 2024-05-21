@@ -265,8 +265,8 @@ class APITestCase(BaseTestCase):
         self.assertEqual(len(data['games']), self.app.config['ITEMS_PER_PAGE'])
         self.assertEqual(data['total_games'],
                          self.app.config['ITEMS_PER_PAGE'] + self.app.config['ITEMS_PER_PAGE'] // 2)
-        self.assertEqual(data['next_url'], 2)
-        self.assertIsNone(data['prev_url'])
+        self.assertEqual(data['next_page'], 2)
+        self.assertIsNone(data['prev_page'])
 
         # Test pagination
         response = self.client.get('/api/games?page=2')
@@ -274,8 +274,8 @@ class APITestCase(BaseTestCase):
         data = json.loads(response.data)
         self.assertTrue(data['success'])
         self.assertEqual(len(data['games']), self.app.config['ITEMS_PER_PAGE'] - self.app.config['ITEMS_PER_PAGE'] // 2)
-        self.assertEqual(data['prev_url'], 1)
-        self.assertIsNone(data['next_url'])
+        self.assertEqual(data['prev_page'], 1)
+        self.assertIsNone(data['next_page'])
 
         # Test pagination redirect
         response = self.client.get('/api/games?page=99')
@@ -323,10 +323,10 @@ class APITestCase(BaseTestCase):
         data = json.loads(response.data)
         self.assertTrue(data['success'])
         self.assertEqual(len(data['comments']), self.app.config['ITEMS_PER_PAGE'])
-        self.assertEqual(data['total_games'],
+        self.assertEqual(data['total_comments'],
                          self.app.config['ITEMS_PER_PAGE'] + self.app.config['ITEMS_PER_PAGE'] // 2)
-        self.assertEqual(data['next_url'], 2)
-        self.assertIsNone(data['prev_url'])
+        self.assertEqual(data['next_page'], 2)
+        self.assertIsNone(data['prev_page'])
 
         # Test invalid game_id
         response = self.client.get('/api/comments?game_id=999')
@@ -339,16 +339,14 @@ class APITestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.data)
         self.assertTrue(data['success'])
-        self.assertEqual(len(data['comments']), self.app.config['ITEMS_PER_PAGE'] - self.app.config['ITEMS_PER_PAGE'] // 2)
-        self.assertEqual(data['prev_url'], 1)
-        self.assertIsNone(data['next_url'])
+        self.assertEqual(len(data['comments']),
+                         self.app.config['ITEMS_PER_PAGE'] - self.app.config['ITEMS_PER_PAGE'] // 2)
+        self.assertEqual(data['prev_page'], 1)
+        self.assertIsNone(data['next_page'])
 
         # Test pagination redirect
         response = self.client.get(f'/api/comments?game_id={self.game.id}&page=99')
         self.assertEqual(response.status_code, 302)
-        # data = json.loads(response.data)
-        # self.assertTrue(data['success'])
-        # self.assertEqual(len(data['comments']), 1)
 
 
 if __name__ == '__main__':
