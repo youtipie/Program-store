@@ -69,7 +69,7 @@ def get_games():
     }), 200
 
 
-@bp.route("/add_popularity")
+@bp.route("/add_popularity", methods=["POST"])
 def add_popularity():
     token = request.args.get("token", "", type=str)
     game = Game.verify_popularity_token(token)

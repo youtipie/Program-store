@@ -304,14 +304,14 @@ class APITestCase(BaseTestCase):
     def test_add_popularity(self):
         # Test successful addition of popularity
         token = self.game.create_popularity_token()
-        response = self.client.get(f'/api/add_popularity?token={token}')
+        response = self.client.post(f'/api/add_popularity?token={token}')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.data)
         self.assertTrue(data['success'])
         self.assertEqual(self.game.popularity, 1)
 
         # Test invalid token
-        response = self.client.get('/api/add_popularity?token=invalid')
+        response = self.client.post('/api/add_popularity?token=invalid')
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.data)
         self.assertFalse(data['success'])
