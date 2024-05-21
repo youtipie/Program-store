@@ -21,3 +21,6 @@ class Config:
     RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
     REDIS_URL = os.environ.get("REDIS_URL")
     USE_RQ_TO_SEND_EMAILS = int(os.environ.get("USE_RQ_TO_SEND_EMAILS")) or False
+    AWS_ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY")
+    AWS_SECRET_KEY = os.environ.get("AWS_SECRET_KEY")
+    AWS_BUCKET = os.environ.get("AWS_BUCKET")

@@ -1,6 +1,6 @@
 from boto3 import client
 from botocore.client import Config
-from credentials import ACCESS_KEY, SECRET_KEY, BUCKET
+from flask import current_app
 
 
 def get_client():
@@ -8,8 +8,8 @@ def get_client():
         's3',
         config=Config(signature_version='s3v4'),
         region_name="eu-north-1",
-        aws_access_key_id=ACCESS_KEY,
-        aws_secret_access_key=SECRET_KEY)
+        aws_access_key_id=current_app.config["AWS_ACCESS_KEY"],
+        aws_secret_access_key=current_app.config["AWS_SECRET_KEY"])
 
 
 def generate_public_url(file_name, timeout=300):
@@ -17,7 +17,7 @@ def generate_public_url(file_name, timeout=300):
     url = s3_client.generate_presigned_url(
         ClientMethod='get_object',
         Params={
-            'Bucket': BUCKET,
+            'Bucket': current_app.config["AWS_BUCKET"],
             'Key': file_name
         },
         ExpiresIn=timeout
