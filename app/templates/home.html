@@ -33,9 +33,21 @@
                     <li>
                         <a href="{{url_for('main.support')}}" class="link">Support</a>
                     </li>
+                    {% if current_user.is_authenticated %}
                     <li>
                         <a href="{{url_for('main.account')}}" class="link">Account</a>
                     </li>
+                    <li>
+                        <a href="{{url_for('auth.logout')}}" class="link">Logout</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{{url_for('auth.login')}}" class="link">Log in</a>
+                    </li>
+                    <li>
+                        <a href="{{url_for('auth.register')}}" class="link">Register</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </nav>
             <h1 class="header-p">Gateway to the gaming world: Open the door to incredible adventures with us!</h1>
