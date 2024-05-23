@@ -40,7 +40,7 @@ a {
 .page-header {
     display: flex;
     background-color: #4C4D9D;
-    background-image: url(../images/headerbg.png);
+    background-image: url('/static/assets/headerbg.png');
     max-width: 100%vw;
     background-repeat: no-repeat;
     background-size: cover;
@@ -237,7 +237,7 @@ a {
     position: relative;
     max-width: 1158px;
     display: flex;
-    background-image: url(../images/bg1.jpg);
+    background-image: url('/static/assets/bg1.jpg');
     background-size: auto;
     background-position: center;
     justify-content: space-between;
