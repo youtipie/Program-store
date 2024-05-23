@@ -64,7 +64,7 @@ def reset_password_request():
     if form.validate_on_submit():
         user = db.session.query(User).filter_by(email=form.email.data).first()
         if user:
-            send_password_reset_email(user, current_app.config["USE_RQ_TO_SEND_EMAILS"])
+            send_password_reset_email(user)
         flash("Перевірте пошту!")
         return redirect(url_for("auth.login"))
     return render_template("auth/reset_password_request.html", form=form)
