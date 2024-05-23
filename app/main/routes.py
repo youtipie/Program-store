@@ -7,5 +7,4 @@ from app.main import bp
 
 @bp.route("/")
 def index():
-    categories = db.session.query(Category).all()
-    return render_template("home.html", categories=categories)
+    return render_template("home.html")

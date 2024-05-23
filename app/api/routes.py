@@ -1,10 +1,17 @@
-import time
-
 from flask import current_app, request, url_for, jsonify, redirect
 from app import db
 from app.models import User, Category, Game, Comment, UserGameRating
 from app.api import bp
 from sqlalchemy import func, select
+
+
+@bp.route("/categories")
+def get_categories():
+    try:
+        categories = db.session.query(Category).all()
+    except:
+        return {"success": False, "message": "Something went wrong"}, 500
+    return {"success": True, "categories": [category.name for category in categories]}
 
 
 @bp.route("/games")

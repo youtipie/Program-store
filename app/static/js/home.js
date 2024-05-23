@@ -2,6 +2,36 @@ $(document).ready(function(){
     let typingTimer;
     const doneTypingInterval = 500;
 
+    $.ajax({
+        url: '/api/categories',
+        method: 'get',
+        dataType: 'json',
+        success: function(data){
+            var category_list = $("div.categories-div form.form");
+            category_list.empty();
+
+            category_list.append(`
+                <label class="form-label">
+                    ALL GAMES
+                    <input type="radio" id="all_games" name="categor" value="" checked/>
+                </label>
+            `);
+
+            for (let i = 0; i < data.categories.length; i++){
+                category_list.append(`
+                    <label class="form-label">
+                        ${data.categories[i]}
+                        <input type="radio" name="categor" value="${data.categories[i]}"/>
+                    </label>
+                `);
+            }
+            $("input[name='categor']").on("change", function(){
+                var data = get_data();
+                get_games(data);
+            });
+        }
+    })
+
     function get_games(data) {
         $('div.load-page').show();
         $('div.game-div').hide();
@@ -101,12 +131,7 @@ $(document).ready(function(){
         return data;
     }
 
-
     get_games();
-    $("input[name='categor']").on("change", function(){
-        var data = get_data();
-        get_games(data);
-    }) ;
 
     $('.search').on('input', function() {
         clearTimeout(typingTimer);

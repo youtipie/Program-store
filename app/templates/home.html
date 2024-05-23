@@ -107,16 +107,6 @@
                 </div>
                 <div class="categories-div">
                     <form class="form">
-                        <label class="form-label">
-                            ALL GAMES
-                            <input type="radio" id="all_games" name="categor" value="" checked/>
-                        </label>
-                        {% for category in categories %}
-                        <label class="form-label">
-                            {{ category.name }}
-                            <input type="radio" name="categor" value="{{ category.name }}"/>
-                        </label>
-                        {% endfor %}
                         <select class="select-sorting" name="sorting" id="sorting">
                             <option value="without"></option>
                             <option value="themostpopular">The most popular</option>
