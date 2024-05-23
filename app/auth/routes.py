@@ -46,7 +46,7 @@ def register():
         db.session.commit()
         flash("Вітаємо, Ви зареєструвались. Тепер можете увійти!")
         return redirect(url_for("auth.login"))
-    return render_template("auth/register.html", form=form)
+    return render_template("auth/signin.html", form=form)
 
 
 @bp.route("/logout")
@@ -67,7 +67,7 @@ def reset_password_request():
             send_password_reset_email(user)
         flash("Перевірте пошту!")
         return redirect(url_for("auth.login"))
-    return render_template("auth/reset_password_request.html", form=form)
+    return render_template("auth/forgotpas.html", form=form)
 
 
 @bp.route("/reset_password/<token>", methods=["GET", "POST"])

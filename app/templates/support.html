@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,22 +13,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css"
         integrity="sha512-4xo8blKMVCiXpTaLzQSLSw3KFOVPWhm/TRtuPVc4WG6kUgjH6J03IBuG7JZPkcWMxJ5huwaBpOpnwYElP/m6wg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{url_for('static', filename='spage.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/spage.css')}}" />
 </head>
 <body>
     <header class="page-header">
         <div class="container flex-box">
-            <nav class="nav-menu">
-                <a href="./home.html" class="nav-logo">Dark Nemesis</a>
+             <nav class="nav-menu">
+                <a href="{{url_for('main.index')}}" class="nav-logo">Dark Nemesis</a>
                 <ul class="nav-list">
                     <li>
-                        <a href="./home.html" class="link">Home</a>
+                        <a href="{{url_for('main.index')}}" class="link">Home</a>
                     </li>
                     <li>
-                        <a href="./support.html" class="link">Support</a>
+                        <a href="{{url_for('main.support')}}" class="link">Support</a>
                     </li>
                     <li>
-                        <a href="./account.html" class="link">Account</a>
+                        <a href="{{url_for('main.account')}}" class="link">Account</a>
                     </li>
                 </ul>
             </nav>
@@ -49,18 +49,18 @@
     </main>
     <footer class="foot-page">
         <div class="container foot-box">
-            <a href="./home.html" class="foot-logo">Dark Nemesis</a>
+            <a href="{{url_for('main.index')}}" class="foot-logo">Dark Nemesis</a>
             <div>
                 <h4 class="menu-link">MENU</h4>
                 <ul class="list-ul">
                     <li>
-                        <a href="./account.html" class="list-link">Account</a>
+                        <a href="{{url_for('main.account')}}" class="list-link">Account</a>
                     </li>
                     <li>
-                        <a href="./support.html" class="list-link">Support</a>
+                        <a href="{{url_for('main.support')}}" class="list-link">Support</a>
                     </li>
                     <li>
-                        <a href="./home.html" class="list-link">Home</a>
+                        <a href="{{url_for('main.index')}}" class="list-link">Home</a>
                     </li>
                 </ul>
             </div>

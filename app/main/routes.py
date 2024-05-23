@@ -8,3 +8,13 @@ from app.main import bp
 @bp.route("/")
 def index():
     return render_template("home.html")
+
+
+@bp.route("/support")
+def support():
+    return render_template("support.html")
+
+
+@bp.route("/account")
+def account():
+    return render_template("account.html")
