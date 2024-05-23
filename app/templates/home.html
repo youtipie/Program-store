@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Kavoon&family=Lacquer&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css"
+        integrity="sha512-4xo8blKMVCiXpTaLzQSLSw3KFOVPWhm/TRtuPVc4WG6kUgjH6J03IBuG7JZPkcWMxJ5huwaBpOpnwYElP/m6wg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="jquery-3.7.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{url_for('static', filename='home.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='hpage.css')}}" />
+</head>
+<body>
+    <header class="page-header">
+        <div class="container flex-box">
+            <nav class="nav-menu">
+                <a href="./home.html" class="nav-logo">Dark Nemesis</a>
+                <ul class="nav-list">
+                    <li>
+                        <a href="" class="link">Home</a>
+                    </li>
+                    <li>
+                        <a href="" class="link">Support</a>
+                    </li>
+                    <li>
+                        <a href="" class="link">Account</a>
+                    </li>
+                </ul>
+            </nav>
+            <h1 class="header-p">Gateway to the gaming world: Open the door to incredible adventures with us!</h1>
+        </div>
+    </header>
+    <main>
+        <section class="first-section">
+            <div class="container first-box">
+                <div id="carouselExample" class="carousel slide">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="./images/callofduty.png" class="d-block w-100" alt="image of game">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./images/castle-clash.jpg" class="d-block w-100" alt="image of game">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="./images/angry.jpg" class="d-block w-100" alt="image of game">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section class="second-section">
+            <div class="container second-box">
+                <div class="info-box">
+                    <svg width="84" height="64" id="joystick" viewBox="0 0 84 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M49.4328 41.7502L65.2041 58.3507C66.5323 59.7483 68.2778 60.6774 70.1789 60.9988C72.0799 61.3202 74.0339 61.0164 75.7477 60.1331C77.4614 59.2498 78.8426 57.8346 79.6838 56.0998C80.5251 54.365 80.7811 52.4042 80.4135 50.5116L74.2135 18.6126M26.1828 18.5V26.25M22.3078 22.375H30.0578M49.4328 22.375H57.1828M55.2453 3C60.3839 3 65.312 5.04129 68.9455 8.67481C72.579 12.3083 74.6203 17.2364 74.6203 22.375C74.6203 27.5136 72.579 32.4417 68.9455 36.0752C65.312 39.7087 60.3839 41.75 55.2453 41.75H33.9328L18.3747 58.1296C17.0439 59.5308 15.2937 60.4614 13.3879 60.7813C11.4821 61.1012 9.52397 60.793 7.80858 59.9032C6.09319 59.0134 4.71349 57.5901 3.87739 55.8479C3.04129 54.1057 2.7941 52.1389 3.17307 50.244L9.50482 18.5736C10.3837 14.1812 12.7575 10.2289 16.2221 7.38952C19.6868 4.55011 24.0283 2.99894 28.5078 3H55.2453Z"
+                            stroke="#FF00A8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <p class="par">Get to know the world of computer games and choose what you like</p>
+                    <button class="but" type="button">More</button>
+                </div>
+                <div class="img">
+                    <img src="./images/angry-birds-group-i21350 1.png" alt="Image of game">
+                </div>
+            </div>
+        </section>
+        <section class="search-section">
+            <div class="container search-box">
+                <input type="search" class="search" name="site-search" placeholder="What are you going to look for?">
+
+            </div>
+        </section>
+        <section class="third-section">
+            <div class="container third-box">
+                <div class="game-div">
+                    <ul class="game-list">
+
+                    </ul>
+                    <div class="pages">
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <span class="page-link">Previous</span>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">1</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">3</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">...</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">25</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="categories-div">
+                    <form class="form">
+                        <label class="form-label">
+                            ALL GAMES
+                            <input type="radio" id="all_games" name="categor" value="" checked/>
+                        </label>
+                        <label class="form-label">
+                            ACTION
+                            <input type="radio" id="action" name="categor" value="action"/>
+                        </label>
+                        <label class="form-label">
+                            ADVENTURE
+                            <input type="radio" id="adventure" name="categor" value="adventure" />
+                        </label>
+                        <label class="form-label">
+                            ARCADE
+                            <input type="radio" id="arcade" name="categor" value="arcade" />
+                        </label>
+                        <label class="form-label">
+                            FIGHTING
+                            <input type="radio" id="fighting" name="categor" value="fighting" />
+                        </label>
+                        <label class="form-label">
+                            HORROR
+                            <input type="radio" id="horror" name="categor" value="horror" />
+                        </label>
+                        <label class="form-label">
+                            PUZZLE
+                            <input type="radio" id="puzzle" name="categor" value="puzzle" />
+                        </label>
+                        <label class="form-label">
+                            RACING
+                            <input type="radio" id="racing" name="categor" value="racing" />
+                        </label>
+                        <label class="form-label">
+                            RPG
+                            <input type="radio" id="rpg" name="categor" value="RPG" />
+                        </label>
+                        <label class="form-label">
+                            SIMULATION
+                            <input type="radio" id="simulation" name="categor" value="simulation" />
+                        </label>
+                        <label class="form-label">
+                            STRATEGY
+                            <input type="radio" id="strategy" name="categor" value="strategy" />
+                        </label>
+                        <select class="select-sorting" name="sorting" id="sorting">
+                            <option value="without"></option>
+                            <option value="themostpopular">The most popular</option>
+                            <option value="thenewwest">The newest</option>
+                            <option value="theoldest">The oldest</option>
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="foot-page">
+        <div class="container foot-box">
+            <a href="./home.html" class="foot-logo">Dark Nemesis</a>
+            <div>
+                <h4 class="menu-link">MENU</h4>
+                <ul class="list-ul">
+                    <li>
+                        <a href="" class="list-link">Account</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Support</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="menu-link">CATEGORIES</h4>
+                <ul class="list-ul">
+                    <li>
+                        <a href="" class="list-link">Adventure</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Fighting</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Strategy</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Racing</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="menu-link">FOLLOW</h4>
+                <ul class="list-ul">
+                    <li>
+                        <a href="" class="list-link">Facebook</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Instagram</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Twitter</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

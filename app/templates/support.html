@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Kavoon&family=Lacquer&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css"
+        integrity="sha512-4xo8blKMVCiXpTaLzQSLSw3KFOVPWhm/TRtuPVc4WG6kUgjH6J03IBuG7JZPkcWMxJ5huwaBpOpnwYElP/m6wg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{url_for('static', filename='spage.css')}}" />
+</head>
+<body>
+    <header class="page-header">
+        <div class="container flex-box">
+            <nav class="nav-menu">
+                <a href="./home.html" class="nav-logo">Dark Nemesis</a>
+                <ul class="nav-list">
+                    <li>
+                        <a href="./home.html" class="link">Home</a>
+                    </li>
+                    <li>
+                        <a href="./support.html" class="link">Support</a>
+                    </li>
+                    <li>
+                        <a href="./account.html" class="link">Account</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="first-section">
+            <div class="container first-box">
+                <h1 class="header">SUPPORT</h1>
+                <p class="par">You can write us problem and we will try to solve it</p>
+                <form name="support" autocomplete="off" novalidate="off" class="sec-form">
+                    <input type="text" name="support-topic" id="support-topic" class="top-input" placeholder="Enter topic of your problem"/>
+                    <textarea name="support-problem" id="support-problem" class="area-input" rows="5" placeholder="Enter your problem"></textarea>
+                    <button type="submit" class="but">Send</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer class="foot-page">
+        <div class="container foot-box">
+            <a href="./home.html" class="foot-logo">Dark Nemesis</a>
+            <div>
+                <h4 class="menu-link">MENU</h4>
+                <ul class="list-ul">
+                    <li>
+                        <a href="./account.html" class="list-link">Account</a>
+                    </li>
+                    <li>
+                        <a href="./support.html" class="list-link">Support</a>
+                    </li>
+                    <li>
+                        <a href="./home.html" class="list-link">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="menu-link">CATEGORIES</h4>
+                <ul class="list-ul">
+                    <li>
+                        <a href="" class="list-link">Adventure</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Fighting</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Strategy</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Racing</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="menu-link">FOLLOW</h4>
+                <ul class="list-ul">
+                    <li>
+                        <a href="" class="list-link">Facebook</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Instagram</a>
+                    </li>
+                    <li>
+                        <a href="" class="list-link">Twitter</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
