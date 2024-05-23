@@ -96,7 +96,7 @@ $(document).ready(function(){
                 }
 
                 if (current_page < total_pages - max_visible_buttons + 2) {
-                    pagination.append(`<li class="page-item disabled"><span class="page-link">...</span></li>`);
+                    pagination.append(`<li class="page-item"><span class="page-link disabled">...</span></li>`);
                 }
 
                 if (total_pages > 1) {

@@ -533,8 +533,14 @@ a {
 
 .page-link.active {
     background-color: #ffffff;
-    cursor: default;
+    cursor: not-allowed;
     color: #1843B0;
     border-color: #ffffff;
+}
 
+.page-link.disabled {
+    background-color: #3d3d3d;
+    cursor: not-allowed;
+    color: #ffffff;
+    border-color: #ffffff;
 }
