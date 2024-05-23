@@ -1,3 +1,5 @@
+import time
+
 from flask import current_app, request, url_for, jsonify, redirect
 from app import db
 from app.models import User, Category, Game, Comment, UserGameRating
@@ -60,6 +62,7 @@ def get_games():
                     ))
     return jsonify({
         "success": True,
+        "current_page": page,
         "next_page": next_page,
         "prev_page": prev_page,
         "total_games": games.total,

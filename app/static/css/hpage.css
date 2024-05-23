@@ -243,6 +243,12 @@ a {
     justify-content: space-between;
 }
 
+.load-page {
+    display: flex;
+    margin-left: 200px;
+    margin-top: 160px;
+}
+
 .game-div {
     display: flex;
     flex-direction: column;
@@ -523,4 +529,12 @@ a {
 
 .foot-box .list-link:hover {
     color: #1843B0;
+}
+
+.page-link.active {
+    background-color: #ffffff;
+    cursor: default;
+    color: #1843B0;
+    border-color: #ffffff;
+
 }

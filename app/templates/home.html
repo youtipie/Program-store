@@ -17,10 +17,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="jquery-3.7.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="{{url_for('static', filename='home.js')}}"></script>
-    <link rel="stylesheet" href="{{url_for('static', filename='hpage.css')}}" />
+    <script src="{{url_for('static', filename='js/home.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/hpage.css')}}" />
 </head>
 <body>
     <header class="page-header">
@@ -48,13 +47,13 @@
                 <div id="carouselExample" class="carousel slide">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="./images/callofduty.png" class="d-block w-100" alt="image of game">
+                            <img src="{{url_for('static', filename='assets/callofduty.png')}}" class="d-block w-100" alt="image of game">
                         </div>
                         <div class="carousel-item">
-                            <img src="./images/castle-clash.jpg" class="d-block w-100" alt="image of game">
+                            <img src="{{url_for('static', filename='assets/castle-clash.jpg')}}" class="d-block w-100" alt="image of game">
                         </div>
                         <div class="carousel-item">
-                            <img src="./images/angry.jpg" class="d-block w-100" alt="image of game">
+                            <img src="{{url_for('static', filename='assets/angry.jpg')}}" class="d-block w-100" alt="image of game">
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -80,18 +79,20 @@
                     <button class="but" type="button">More</button>
                 </div>
                 <div class="img">
-                    <img src="./images/angry-birds-group-i21350 1.png" alt="Image of game">
+                    <img src="{{url_for('static', filename='assets/angry-birds-group-i21350 1.png')}}" alt="Image of game">
                 </div>
             </div>
         </section>
         <section class="search-section">
             <div class="container search-box">
                 <input type="search" class="search" name="site-search" placeholder="What are you going to look for?">
-
             </div>
         </section>
         <section class="third-section">
             <div class="container third-box">
+                <div class="load-page">
+                    <img src="{{url_for('static', filename='assets/loading.gif')}}" class="load-gif" width="250" height="250">
+                </div>
                 <div class="game-div">
                     <ul class="game-list">
 
@@ -99,27 +100,7 @@
                     <div class="pages">
                         <nav aria-label="...">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <span class="page-link">Previous</span>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">...</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">25</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
+
                             </ul>
                         </nav>
                     </div>
@@ -130,46 +111,12 @@
                             ALL GAMES
                             <input type="radio" id="all_games" name="categor" value="" checked/>
                         </label>
+                        {% for category in categories %}
                         <label class="form-label">
-                            ACTION
-                            <input type="radio" id="action" name="categor" value="action"/>
+                            {{ category.name }}
+                            <input type="radio" name="categor" value="{{ category.name }}"/>
                         </label>
-                        <label class="form-label">
-                            ADVENTURE
-                            <input type="radio" id="adventure" name="categor" value="adventure" />
-                        </label>
-                        <label class="form-label">
-                            ARCADE
-                            <input type="radio" id="arcade" name="categor" value="arcade" />
-                        </label>
-                        <label class="form-label">
-                            FIGHTING
-                            <input type="radio" id="fighting" name="categor" value="fighting" />
-                        </label>
-                        <label class="form-label">
-                            HORROR
-                            <input type="radio" id="horror" name="categor" value="horror" />
-                        </label>
-                        <label class="form-label">
-                            PUZZLE
-                            <input type="radio" id="puzzle" name="categor" value="puzzle" />
-                        </label>
-                        <label class="form-label">
-                            RACING
-                            <input type="radio" id="racing" name="categor" value="racing" />
-                        </label>
-                        <label class="form-label">
-                            RPG
-                            <input type="radio" id="rpg" name="categor" value="RPG" />
-                        </label>
-                        <label class="form-label">
-                            SIMULATION
-                            <input type="radio" id="simulation" name="categor" value="simulation" />
-                        </label>
-                        <label class="form-label">
-                            STRATEGY
-                            <input type="radio" id="strategy" name="categor" value="strategy" />
-                        </label>
+                        {% endfor %}
                         <select class="select-sorting" name="sorting" id="sorting">
                             <option value="without"></option>
                             <option value="themostpopular">The most popular</option>
