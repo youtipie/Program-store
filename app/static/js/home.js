@@ -119,6 +119,10 @@ $(document).ready(function(){
     }
 
     function get_data() {
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $(".search").offset().top
+        }, 500);
+
         var data = {};
         var search_val = $('.search').val();
         var category_val = $("input[name='categor']:checked").val();
