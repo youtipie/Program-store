@@ -7,7 +7,7 @@ load_dotenv(os.path.join(basedir, ".env"))
 
 
 class Config:
-    SECRET_KEY = os.environ.get("SECRET_KEY") or uuid.uuid4()
+    SECRET_KEY = os.environ.get("SECRET_KEY") or str(uuid.uuid4())
     SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
     TEST_DATABASE_URI = os.environ.get("TEST_DATABASE_URI") or "sqlite://"
     SQLALCHEMY_TRACK_MODIFICATIONS = int(os.environ.get("SQLALCHEMY_TRACK_MODIFICATIONS") or False)
