@@ -1,0 +1,108 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Istok Web", sans-serif;
+    font-weight: Bold;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 2%;
+    color: #ffffff;
+    background: #160840;
+}
+
+.container {
+    max-width: 1158px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+ul,
+ol {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+img {
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* ==========This is section 1========== */
+
+.first-box {
+    position: relative;
+}
+
+.header {
+    text-align: center;
+    font-weight: 400;
+    font-size: 40px;
+    text-align: center;
+    color: #fff;
+    margin-top: 200px;
+}
+
+.par {
+    text-align: center;
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+    padding-bottom: 55px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 76px;
+}
+
+.email-input {
+    display: block;
+    border-radius: 12px;
+    width: 950px;
+    height: 44px;
+    background: #d9d9d9;
+    padding-left: 15px;
+    margin-bottom: 31px;
+    border: none;
+}
+
+.but {
+    width: 220px;
+    height: 52px;
+    background: #3964d3;
+    border-color: #3964d3;
+    color: #ffffff;
+    cursor: pointer;
+    border: none;
+}
+
+.but:hover,
+.but:focus {
+    background: #1843B0;
+}
+
+.login {
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+    position: absolute;
+    right: 0;
+}
+
+.login:hover,
+.login:focus {
+    color: #1843B0;
+}

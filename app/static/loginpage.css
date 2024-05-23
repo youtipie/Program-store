@@ -1,0 +1,279 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Istok Web", sans-serif;
+    font-weight: Bold;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 2%;
+    color: #ffffff;
+    background: #160840;
+}
+
+.container {
+    max-width: 1158px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+ul,
+ol {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+img {
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* ==========This is section 1========== */
+
+.first-box {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.div-form {
+    display: flex;
+    flex-direction: column;
+    background: #4C4D9D;
+    padding: 72px 52px;
+    border-radius: 40px;
+    align-items: flex-start;
+    margin-top: 68px;
+}
+
+.header {
+    font-weight: 700;
+    font-size: 40px;
+    color: #fff;
+}
+
+.form-label {
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    margin: 4px 0;
+}
+
+.form-input {
+    border-radius: 12px;
+    width: 350px;
+    height: 44px;
+    background: #d9d9d9;
+    border: none;
+    padding-left: 5px;
+}
+
+.second-form {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.but {
+    width: 149px;
+    height: 41px;
+    background: #3964d3;
+    margin-top: 33px;
+    margin-bottom: 5px;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.but:hover,
+.but:focus {
+    background: #1843B0;
+    border-color: #1843B0;
+}
+
+.par {
+    margin-bottom: 3px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+}
+
+.log {
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+}
+
+.log:hover,
+.log:focus {
+    color: #1843B0;
+}
+
+.div-photo {
+    margin-left: 192px;
+    margin-top: 84px;
+}
+
+.logo {
+    font-family: "Lacquer", sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    color: #fff;
+    text-align: center;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Istok Web", sans-serif;
+    font-weight: Bold;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 2%;
+    color: #ffffff;
+    background: #160840;
+}
+
+.container {
+    max-width: 1158px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+ul,
+ol {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+img {
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* ==========This is section 1========== */
+
+.first-box {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.div-form {
+    display: flex;
+    flex-direction: column;
+    background: #4C4D9D;
+    padding: 72px 52px;
+    border-radius: 40px;
+    align-items: flex-start;
+    margin-top: 68px;
+}
+
+.header {
+    font-weight: 700;
+    font-size: 40px;
+    color: #fff;
+}
+
+.form-label {
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    margin: 4px 0;
+}
+
+.form-input {
+    border-radius: 12px;
+    width: 350px;
+    height: 44px;
+    background: #d9d9d9;
+    border: none;
+}
+
+.forgot-pas {
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+    padding-top: 10px;
+    margin-left: 228px;
+}
+
+.forgot-pas:hover,
+.forgot-pas:focus {
+    color: #1843B0;
+}
+
+.second-form {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.but {
+    width: 149px;
+    height: 41px;
+    background: #3964d3;
+    margin-top: 33px;
+    margin-bottom: 5px;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.but:hover,
+.but:focus {
+    background: #1843B0;
+    border-color: #1843B0;
+}
+
+.par {
+    margin-bottom: 3px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #fff;
+}
+
+.sig {
+    font-weight: 400;
+    font-size: 16px;
+    color: #fff;
+}
+
+.sig:hover,
+.sig:focus {
+    color: #1843B0;
+}
+
+.div-photo {
+    margin-left: 192px;
+    margin-top: 84px;
+}
+
+.logo {
+    font-family: "Lacquer", sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    color: #fff;
+    text-align: center;
+}

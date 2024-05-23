@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page of add games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Istok+Web:ital,wght@0,400;0,700;1,400;1,700&family=Kavoon&family=Lacquer&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css"
+        integrity="sha512-4xo8blKMVCiXpTaLzQSLSw3KFOVPWhm/TRtuPVc4WG6kUgjH6J03IBuG7JZPkcWMxJ5huwaBpOpnwYElP/m6wg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='poapage.css')}}" />
+</head>
+
+<body>
+    <main>
+        <section class="first-section">
+            <div class="first-box">
+                <form class="select-img"><svg class="icon icon-down-svg" id="icon-down-svg" viewBox="0 0 32 32">
+                    <path d="M23 14l-8 8-8-8h5v-12h6v12zM15 22h-15v8h30v-8h-15zM28 26h-4v-2h4v2z"></path>
+                </svg>
+                <span class="button-span">Drag and drop files</span>
+                </form>
+                <div class="title-of-game-div">
+                    <input class="title-of-game" type="text" name="games-name" id="games-name" placeholder="Enter name of game">
+                    <input class="pay-for-game" type="checkbox" name="subscription" id="subscription">
+                </div>
+                <div class="categories-div">
+                    <select class="categories-select" id="name-of-categories" name="name-of-categories">
+                        <option value="without">Choose categories</option>
+                        <option value="themostpopular">ACTION</option>
+                        <option value="thenewwest">ADVENTURE</option>
+                        <option value="theoldest">ARCADE</option>
+                        <option value="themostpopular">FIGHTING</option>
+                        <option value="thenewwest">HORROR</option>
+                        <option value="theoldest">PUZZLE</option>
+                        <option value="themostpopular">RACING</option>
+                        <option value="thenewwest">RPG</option>
+                        <option value="theoldest">SIMULATION</option>
+                        <option value="theoldest">STRATEGY</option>
+                    </select>
+                    <button type="button" class="add-categories-but"><svg class="plus-icon" id="icon-plus" viewBox="0 0 32 32" aria-hidden="true" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <path
+                            d="M31 12h-11v-11c0-0.552-0.448-1-1-1h-6c-0.552 0-1 0.448-1 1v11h-11c-0.552 0-1 0.448-1 1v6c0 0.552 0.448 1 1 1h11v11c0 0.552 0.448 1 1 1h6c0.552 0 1-0.448 1-1v-11h11c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1z">
+                        </path>
+                    </svg></button>
+                    <button type="button" class="return-but">
+                        <svg class="second-icon" id="icon-undo" viewBox="0 0 32 32" aria-hidden="true" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path
+                                d="M23.808 32c3.554-6.439 4.153-16.26-9.808-15.932v7.932l-12-12 12-12v7.762c16.718-0.436 18.58 14.757 9.808 24.238z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>

@@ -1,0 +1,204 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Istok Web", sans-serif;
+    font-weight: Bold;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 2%;
+    color: #ffffff;
+    background: #160840;
+}
+
+.container {
+    max-width: 1158px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+ul,
+ol {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+img {
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+/* ==========This is header========== */
+
+.flex-box {
+    max-width: 1440px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 153px;
+}
+
+.nav-menu {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    font-family: "Lacquer", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #fff;
+    padding-top: 25px;
+}
+
+.nav-list {
+    display: flex;
+    gap: 99px;
+    padding-bottom: 100px;
+}
+
+.nav-list .link {
+    display: block;
+    padding-top: 25px;
+    font-family: "Lacquer", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.nav-list .link:hover,
+.nav-list .link:focus {
+    color: #1843B0;
+}
+
+.header-p {
+    display: block;
+    margin: 231px 240px 268px 240px;
+    text-align: center;
+    font-family: "Istok Web", sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    text-transform: capitalize;
+    text-align: center;
+    color: #fff;
+    max-width: 800;
+    letter-spacing: 2%;
+    line-height: 40px;
+
+}
+
+/* ==========This is section 1========== */
+
+.header {
+    text-align: center;
+    font-weight: 400;
+    font-size: 40px;
+    text-align: center;
+    color: #fff;
+}
+
+.par {
+    text-align: center;
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+    padding-bottom: 55px;
+}
+
+.sec-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 76px;
+}
+
+.top-input {
+    display: block;
+    border-radius: 12px;
+    width: 950px;
+    height: 44px;
+    background: #d9d9d9;
+    padding-left: 15px;
+}
+
+.area-input {
+    display: block;
+    resize: none;
+    width: 950px;
+    background: #d9d9d9;
+    border-radius: 12px;
+    padding-left: 15px;
+    padding-top: 5px;
+    margin-bottom: 35px;
+}
+
+.but {
+    width: 220px;
+    height: 52px;
+    background: #3964d3;
+    border-color: #3964d3;
+    color: #ffffff;
+    cursor: pointer;
+    border: none;
+}
+
+.but:hover,
+.but:focus {
+    background: #1843B0;
+    border-color: #1843B0;
+}
+
+/* ==========This is footer========== */
+
+.foot-page {
+    background: #4C4D9D;
+}
+
+.foot-box {
+    display: flex;
+    padding-top: 71px;
+    justify-content: space-between;
+}
+
+.foot-box .foot-logo {
+    font-family: "Lacquer", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #fff;
+    padding-top: 25px;
+    padding-bottom: 0;
+}
+
+.menu-link {
+    font-family: "Istok Web", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.list-ul {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 122px;
+}
+
+.foot-box .list-link {
+    display: block;
+    font-family: "Istok Web", sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+}
+
+.foot-box .list-link:hover {
+    color: #1843B0;
+}
