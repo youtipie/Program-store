@@ -4,6 +4,7 @@ from app import db
 from app.models import User, Category, Game, Comment, UserGameRating
 from app.api import bp
 from sqlalchemy import func, select
+import json
 
 
 @bp.route("/categories")
@@ -173,3 +174,16 @@ def get_rate_game_token():
 
     return jsonify(
         {"success": True, "tokens": [game.create_rating_token(user.id, rating) for rating in range(1, 6)]})
+
+
+@bp.route("/get_popularity_tokens", methods=["GET"])
+def get_popularity_token():
+    try:
+        ids = request.args.getlist("ids")
+        if not ids:
+            raise ValueError("Missing or empty 'ids' parameter")
+    except ValueError or TypeError:
+        return jsonify({"success": False, "message": "Bad values"}), 400
+    return jsonify(
+        {"success": True, "tokens": [game.create_popularity_token() for game in
+                                     db.session.query(Game).filter(Game.id.in_(ids)).all()]})
