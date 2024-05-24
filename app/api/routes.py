@@ -1,4 +1,5 @@
 from flask import current_app, request, url_for, jsonify, redirect
+from flask_login import current_user
 from app import db
 from app.models import User, Category, Game, Comment, UserGameRating
 from app.api import bp
@@ -79,6 +80,20 @@ def get_games():
     }), 200
 
 
+@bp.route("/game")
+def get_game():
+    try:
+        id = request.args.get("id", None, type=int)
+        game = db.session.query(Game).filter_by(id=id).first()
+    except ValueError or TypeError:
+        return jsonify({"success": False, "message": "Bad values"}), 400
+
+    if game:
+        return jsonify({"success": True, "game": game.to_dict()})
+    else:
+        return jsonify({"success": False, "message": "Game with such id does not exist"})
+
+
 @bp.route("/add_popularity", methods=["POST"])
 def add_popularity():
     token = request.args.get("token", "", type=str)
@@ -101,7 +116,7 @@ def get_comments():
     except ValueError or TypeError:
         return jsonify({"success": False, "message": "Bad values"}), 400
 
-    comments = db.session.query(Comment).paginate(
+    comments = db.session.query(Comment).filter_by(game_id=game_id).paginate(
         page=page,
         per_page=current_app.config[
             "ITEMS_PER_PAGE"],
@@ -120,6 +135,7 @@ def get_comments():
                     ))
     return jsonify({
         "success": True,
+        "current_page": page,
         "comments": [comment.to_dict() for comment in comments],
         "next_page": next_page,
         "prev_page": prev_page,
@@ -140,3 +156,20 @@ def rate_game():
         return jsonify({"success": True, "message": "Rating successfully added"}), 200
     else:
         return jsonify({"success": False, "message": "User have already voted or token is invalid"}), 400
+
+
+@bp.route("/get_rate_game_tokens", methods=["GET"])
+def get_rate_game_token():
+    if not current_user.is_authenticated:
+        return jsonify({"success": False, "message": "User mush be logged in"}), 403
+    try:
+        game_id = request.args.get("game_id", type=int)
+        user = current_user
+        game = db.session.query(Game).filter_by(id=game_id).first()
+        if not game:
+            return jsonify({"success": False, "message": "No game with such id"}), 404
+    except ValueError or TypeError:
+        return jsonify({"success": False, "message": "Bad values"}), 400
+
+    return jsonify(
+        {"success": True, "tokens": [game.create_rating_token(user.id, rating) for rating in range(1, 6)]})

@@ -18,24 +18,41 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{url_for('static', filename='gpage.css')}}" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/gpage.css')}}" />
+    <script src="{{url_for('static', filename='js/pageofgame.js')}}"></script>
 </head>
 
 <body>
     <header class="page-header">
         <div class="container flex-box">
             <nav class="nav-menu">
-                <a href="./home.html" class="nav-logo">Dark Nemesis</a>
+                <a href="{{url_for('main.index')}}" class="nav-logo">Dark Nemesis</a>
                 <ul class="nav-list">
                     <li>
-                        <a href="./home.html" class="link">Home</a>
+                        <a href="{{url_for('main.index')}}" class="link">Home</a>
                     </li>
                     <li>
-                        <a href="./support.html" class="link">Support</a>
+                        <a href="{{url_for('support.support')}}" class="link">Support</a>
+                    </li>
+                    {% if current_user.is_authenticated %}
+                    <li>
+                        <a href="{{url_for('main.account')}}" class="link">Account</a>
                     </li>
                     <li>
-                        <a href="./account.html" class="link" id="acc">Account</a>
+                        <a href="{{url_for('auth.logout')}}" class="link">Logout</a>
                     </li>
+                    {% else %}
+                    <li>
+                        <a href="{{url_for('auth.login')}}" class="link">Log in</a>
+                    </li>
+                    <li>
+                        <a href="{{url_for('auth.register')}}" class="link">Register</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -46,13 +63,7 @@
                 <div id="carouselExample" class="carousel slide">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="./images//real_racing-31.jpg" class="d-block w-100" alt="image of game">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="./images/real_racing-32.jpg" class="d-block w-100" alt="image of game">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="./images/real_racing-33.jpg" class="d-block w-100" alt="image of game">
+                            <img src="{{url_for('static', filename='assets/loading.gif')}}" class="d-block w-100" alt="image of game">
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -65,20 +76,19 @@
                     </button>
                 </div>
                 <div class="second-div">
-                    <img src="./images/rr3l.png" class="logo-image" width="81" height="81">
-                    <p class="game-version">Version 12.3.1</p>
-                    <p class="subscribe">FREE</p>
-                    <button type="button" class="down-but">Download</button>
+                    <img src="{{url_for('static', filename='assets/loading.gif')}}" class="logo-image" width="81" height="81">
+                    <p class="game-version">Version -----</p>
+                    <p class="subscribe">-----</p>
+                    <button type="button" class="down-but" data='toggle-modal'>Download</button>
                 </div>
             </div>
         </section>
         <section class="second-section">
             <div class="container second-box">
                 <div class="first-space">
-                    <h2 class="game-header">Real Racing 3</h2>
-                    <p class="info-par">Genre: Racing</p>
-                    <p class="desc">Take part in world motorsport, including Formula 1, at any time! Helpful cars. Helpful people. Special motorsport. This
-                    is the real racing 3.
+                    <h2 class="game-header">-----</h2>
+                    <p class="info-par">Category: -----</p>
+                    <p class="desc">-----------------------------------
                     </p>
                 </div>
                 <div class="second-space">
@@ -92,26 +102,30 @@
         </section>
         <section class="third-section">
             <div class="container third-box">
+                {% if current_user.is_authenticated %}
                 <div class="create-comment">
-                    <label class="comment-label">
-                        COMMENT
-                        <textarea class="comment-textarea" name="user-comment" id="user-comment" 
-                        placeholder="Enter your comment" rows="4"></textarea>
-                    </label>
-                    <button class="send-but" type="submit">Submit</button>
+                    <form id="comment-form" action="" method="post">
+                        {{ form.hidden_tag() }}
+                        <label class="comment-label">
+                            COMMENT
+                            {{ form.comment(class="comment-textarea", placeholder="Enter your problem", rows="4") }}
+                        </label>
+                        {{ form.submit(class="send-but") }}
+                    </form>
                 </div>
+                {% endif %}
                 <div class="other-comment">
-                    <h3 class="numberofcomments">1 Comments</h3>
-                    <div class="comment-div">
-                        <div class="user">
-                            <img src="./images/acclogo.png" class="comment-avatar" alt="user-avatar" width="25" height="25">
-                            <p class="user-nickname">Deathrow228</p>
+                    <h3 class="numberofcomments">----- Comments</h3>
+                    <div id="comments">
+                        <div class="comment-div">
+                            <div class="user">
+                                <img src="{{url_for('static', filename='assets/loading.gif')}}" class="comment-avatar" alt="user-avatar" width="25" height="25">
+                                <p class="user-nickname">-----</p>
+                            </div>
+                            <p class="comment-time">-----</p>
+                            <p class="comment">-----
+                            </p>
                         </div>
-                        <p class="comment-time">20.05.2024</p>
-                        <p class="comment">Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                            Dicta rem ex nihil atque quia! Eum incidunt error inventore aut nisi esse suscipit accusantium. 
-                            Quaerat tenetur at suscipit aperiam beatae animi?
-                        </p>
                     </div>
                     <div class="pages">
                         <nav aria-label="...">
@@ -146,18 +160,18 @@
     </main>
     <footer class="foot-page">
         <div class="container foot-box">
-            <a href="./home.html" class="foot-logo">Dark Nemesis</a>
+            <a href="{{url_for('main.index')}}" class="foot-logo">Dark Nemesis</a>
             <div>
                 <h4 class="menu-link">MENU</h4>
                 <ul class="list-ul">
                     <li>
-                        <a href="./account.html" class="list-link">Account</a>
+                        <a href="{{url_for('main.account')}}" class="list-link">Account</a>
                     </li>
                     <li>
-                        <a href="./support.html" class="list-link">Support</a>
+                        <a href="{{url_for('support.support')}}" class="list-link">Support</a>
                     </li>
                     <li>
-                        <a href="./home.html" class="list-link">Home</a>
+                        <a href="{{url_for('main.index')}}" class="list-link">Home</a>
                     </li>
                 </ul>
             </div>
@@ -204,7 +218,7 @@
                 <p class="original">Original.</p>
             </div>
             <div class="change-div">
-                <p class="change-par">change: 22.09.2019</p>
+                <p class="change-par">change: </p>
             </div>
             <div class="desc-div">
                 <p class="modal-desc">  We download the Cache and unpack it:
@@ -213,18 +227,12 @@
                 </p>
             </div>
             <div class="button-div">
-                <button type="button" class="down-button">
+                <button type="button" class="down-button" id="apk-download">
                     <svg class="icon icon-down-svg" id="icon-down-svg" viewBox="0 0 32 32">
                             <path d="M23 14l-8 8-8-8h5v-12h6v12zM15 22h-15v8h30v-8h-15zM28 26h-4v-2h4v2z"></path>
                     </svg> 
                     Download APK
-                    <span class="but-span">56.6 Mb</span>
-                </button>
-                <button type="button" class="down-button"><svg class="icon icon-down-svg" id="icon-down-svg" viewBox="0 0 32 32">
-                    <path d="M23 14l-8 8-8-8h5v-12h6v12zM15 22h-15v8h30v-8h-15zM28 26h-4v-2h4v2z"></path>
-                </svg> 
-                Download CACHE
-                <span class="but-span">95.3 Mb</span>
+                    <span id="apk-size" class="but-span">56.6 Mb</span>
                 </button>
             </div>
         </div> 

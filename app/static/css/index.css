@@ -12,7 +12,7 @@ body {
     letter-spacing: 2%;
     color: #ffffff;
     background: #160840;
-    background-image: url(../images/pubg-treasure-hunt-5k-8n.jpg);
+    background-image: url("/static/assets/pubg-treasure-hunt-5k-8n.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: end;

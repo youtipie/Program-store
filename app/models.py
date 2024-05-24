@@ -1,5 +1,6 @@
 import datetime
 from sqlalchemy.orm import relationship
+from sqlalchemy import func
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.aws import generate_public_url
@@ -80,11 +81,23 @@ class Game(db.Model):
     cache_size = db.Column(db.Float, default=0)
     folder_name = db.Column(db.String(200), nullable=False, unique=True)
     images = relationship('Image', backref='game', lazy=True)
-    rating = db.Column(db.Float, default=0, index=True)
+    # rating = db.Column(db.Float, default=0, index=True)
     rating_count = db.Column(db.Integer, default=0)
     popularity = db.Column(db.Integer, default=0, index=True)
 
     comments = relationship('Comment', back_populates='game')
+
+    @property
+    def rating(self):
+        rating = db.session.query(
+            func.round(func.avg(UserGameRating.rating), 0).label('average_rating')
+        ).filter(
+            UserGameRating.game_id == self.id
+        ).scalar()
+        if rating:
+            return rating
+        else:
+            return 0
 
     def create_popularity_token(self, expires_in=600):
         return jwt.encode({"game_id": self.id, "exp": time() + expires_in}, current_app.config['SECRET_KEY'],
@@ -135,7 +148,10 @@ class Game(db.Model):
             "images": [generate_public_url("data/" + image.path) for image in self.images],
             "rating": self.rating,
             "rating_count": self.rating_count,
-            "popularity": self.popularity
+            "popularity": self.popularity,
+            "game_url": f"game?id={self.id}",
+            "apk_url": generate_public_url(f"data/{self.folder_name}/{self.apk_name}"),
+            "cache_url": generate_public_url(f"data/{self.folder_name}/{self.cache_name}") if self.cache_name else None
         }
 
 
@@ -168,5 +184,5 @@ class Comment(db.Model):
             "date": self.date,
             "content": self.content,
             "username": self.user.username,
-            "user_pfp": self.user.avatar(256)
+            "user_pfp": self.user.avatar(25)
         }

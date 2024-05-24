@@ -133,7 +133,7 @@
         <div class="modal">
             <button type="button" class="close-but">X</button>
             <h1 class="modal-header">Create a new password</h1>
-            <form id="password-form" action="" method="post" class="modal-form">
+            <form id="password-form" action="" autocomplete="off" method="post" class="modal-form">
                 {{ password_form.hidden_tag() }}
                 <label class="form-label">
                     {{password_form.password.label}}
@@ -152,7 +152,7 @@
         <div class="modal">
             <button type="button" class="close-but">X</button>
             <h1 class="modal-header">Change Email</h1>
-            <form id="email-form" action="" method="post" class="modal-form">
+            <form id="email-form" action="" autocomplete="off" method="post" class="modal-form">
                 {{ email_form.hidden_tag() }}
                 <label class="form-label">
                     {{email_form.password.label}}
@@ -172,7 +172,7 @@
             <button type="button" class="close-but">X</button>
             <div class="border-div">
                 <h1 class="modal-header">Change Avatar</h1>
-                <form id="avatar-form" action="" method="post" class="modal-form" novalidate>
+                <form id="avatar-form" action="" autocomplete="off" method="post" class="modal-form" novalidate>
                     {{ avatar_form.hidden_tag() }}
                     {{avatar_form.avatar(style="opacity: 0;", accept="image/*")}}
                     <button class="avatar-but" type="button">Choose new Avatar</button>

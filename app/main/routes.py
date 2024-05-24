@@ -1,17 +1,33 @@
 from flask import render_template, request, jsonify
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
-
 from app import db
 from app.aws import upload_avatar
 from app.models import User, Game, Comment
-from app.main.forms import PasswordForm, EmailForm, AvatarForm
+from app.main.forms import PasswordForm, EmailForm, AvatarForm, CommentForm
 from app.main import bp
 
 
 @bp.route("/")
 def index():
     return render_template("home.html")
+
+
+@bp.route("/game", methods=["GET", "POST"])
+def game_page():
+    form = CommentForm()
+    if request.method == "POST" and current_user.is_authenticated:
+        if form.validate_on_submit():
+            comment = Comment(content=form.comment.data,
+                              user=current_user,
+                              game=db.session.query(Game).filter_by(id=request.args.get("id")).first())
+            db.session.add(comment)
+            db.session.commit()
+            return jsonify({"message": "Comment submitted successfully"})
+
+        errors = form.errors
+        return jsonify({"errors": errors}), 400
+    return render_template("pageofgame.html", form=form)
 
 
 @bp.route("/account", methods=["GET", "POST"])

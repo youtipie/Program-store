@@ -64,7 +64,7 @@ $(document).ready(function(){
                                 <h3 class="game-title">${data.games[i].title}</h3>
                                 <div class="divbut">
                                     <p class="game-categ">${data.games[i].category_name}</p>
-                                    <button class="but" type="button">MORE</button>
+                                    <a href="${data.games[i].game_url}" class="but">MORE</a>
                                 </div>
                                 <p class="${rating_class}">${data.games[i].rating}</p>
                             </div>
