@@ -8,7 +8,7 @@ from app.support.email import send_support_email
 def support():
     form = SupportForm()
     if form.validate_on_submit():
-        send_support_email(form.topic, form.content)
+        send_support_email(form.topic.data, form.content.data)
         flash("Problem sent!")
         return redirect(url_for("support.support"))
     return render_template("support.html", form=form)

@@ -1,5 +1,5 @@
 You have new problem from user: {{topic}}
 
-{{problem}}
+{{content}}
 
 FIX NOW!!!!!!!
