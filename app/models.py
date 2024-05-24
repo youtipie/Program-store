@@ -69,6 +69,7 @@ class Game(db.Model):
     title = db.Column(db.String(150), nullable=False, index=True)
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
     description = db.Column(db.Text, nullable=False)
+    last_changed = db.Column(db.DateTime, default=lambda: datetime.datetime.utcnow())
 
     # Poster image always named "poster.jpg"
     # poster = db.Column(db.String(200), nullable=False)
@@ -137,6 +138,7 @@ class Game(db.Model):
             "category_name": self.category.name,
             "category_id": self.category_id,
             "description": self.description,
+            "last_changed": self.last_changed,
             "is_paid": self.is_paid,
             "version": self.version,
             "apk_name": self.apk_name,
