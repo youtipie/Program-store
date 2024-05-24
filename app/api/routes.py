@@ -29,7 +29,7 @@ def get_games():
         return jsonify({"success": False, "message": "Bad values"}), 400
 
     if order not in ["id", "title", "category_id", "is_paid", "apk_size",
-                     "cache_size", "rating", "rating_count", "popularity"]:
+                     "cache_size", "rating", "popularity"]:
         return jsonify({"success": False, "message": "Cannot order by specified field"}), 400
 
     categories = db.session.query(Category).all()

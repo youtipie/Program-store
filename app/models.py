@@ -81,8 +81,6 @@ class Game(db.Model):
     cache_size = db.Column(db.Float, default=0)
     folder_name = db.Column(db.String(200), nullable=False, unique=True)
     images = relationship('Image', backref='game', lazy=True)
-    # rating = db.Column(db.Float, default=0, index=True)
-    rating_count = db.Column(db.Integer, default=0)
     popularity = db.Column(db.Integer, default=0, index=True)
 
     comments = relationship('Comment', back_populates='game')
@@ -147,7 +145,6 @@ class Game(db.Model):
             "cache_size": self.cache_size,
             "images": [generate_public_url("data/" + image.path) for image in self.images],
             "rating": self.rating,
-            "rating_count": self.rating_count,
             "popularity": self.popularity,
             "game_url": f"game?id={self.id}",
             "apk_url": generate_public_url(f"data/{self.folder_name}/{self.apk_name}"),
