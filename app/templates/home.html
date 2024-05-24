@@ -31,7 +31,7 @@
                         <a href="{{url_for('main.index')}}" class="link">Home</a>
                     </li>
                     <li>
-                        <a href="{{url_for('main.support')}}" class="link">Support</a>
+                        <a href="{{url_for('support.support')}}" class="link">Support</a>
                     </li>
                     {% if current_user.is_authenticated %}
                     <li>
@@ -140,7 +140,7 @@
                         <a href="{{url_for('main.account')}}" class="list-link">Account</a>
                     </li>
                     <li>
-                        <a href="{{url_for('main.support')}}" class="list-link">Support</a>
+                        <a href="{{url_for('support.support')}}" class="list-link">Support</a>
                     </li>
                     <li>
                         <a href="{{url_for('main.index')}}" class="list-link">Home</a>

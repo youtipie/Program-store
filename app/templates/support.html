@@ -25,7 +25,7 @@
                         <a href="{{url_for('main.index')}}" class="link">Home</a>
                     </li>
                     <li>
-                        <a href="{{url_for('main.support')}}" class="link">Support</a>
+                        <a href="{{url_for('support.support')}}" class="link">Support</a>
                     </li>
                     {% if current_user.is_authenticated %}
                     <li>
@@ -51,10 +51,24 @@
             <div class="container first-box">
                 <h1 class="header">SUPPORT</h1>
                 <p class="par">You can write us problem and we will try to solve it</p>
-                <form name="support" autocomplete="off" novalidate="off" class="sec-form">
-                    <input type="text" name="support-topic" id="support-topic" class="top-input" placeholder="Enter topic of your problem"/>
-                    <textarea name="support-problem" id="support-problem" class="area-input" rows="5" placeholder="Enter your problem"></textarea>
-                    <button type="submit" class="but">Send</button>
+                <form action="" method="post" name="support" autocomplete="off" novalidate="off" class="sec-form">
+                    {{ form.hidden_tag() }}
+                    {% for error in form.topic.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                    {{ form.topic(class="top-input", placeholder="Enter topic of your problem") }}
+                    {% for error in form.content.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                    {{ form.content(class="area-input", placeholder="Enter your problem", rows="5") }}
+                     {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <span style="color: red;">{{ message }}</span><br>
+                        {% endfor %}
+                        {% endif %}
+                     {% endwith %}
+                     {{ form.submit(class="but") }}
                 </form>
             </div>
         </section>
@@ -69,7 +83,7 @@
                         <a href="{{url_for('main.account')}}" class="list-link">Account</a>
                     </li>
                     <li>
-                        <a href="{{url_for('main.support')}}" class="list-link">Support</a>
+                        <a href="{{url_for('support.support')}}" class="list-link">Support</a>
                     </li>
                     <li>
                         <a href="{{url_for('main.index')}}" class="list-link">Home</a>
