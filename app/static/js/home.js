@@ -1,3 +1,9 @@
+function scroll_to_games(){
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $(".search").offset().top
+        }, 0);
+    }
+
 $(document).ready(function(){
     let typingTimer;
     const doneTypingInterval = 500;
@@ -119,10 +125,7 @@ $(document).ready(function(){
     }
 
     function get_data() {
-        $([document.documentElement, document.body]).animate({
-            scrollTop: $(".search").offset().top
-        }, 500);
-
+        scroll_to_games();
         var data = {};
         var search_val = $('.search').val();
         var category_val = $("input[name='categor']:checked").val();
