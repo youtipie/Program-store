@@ -12,23 +12,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/2.0.0/modern-normalize.min.css"
         integrity="sha512-4xo8blKMVCiXpTaLzQSLSw3KFOVPWhm/TRtuPVc4WG6kUgjH6J03IBuG7JZPkcWMxJ5huwaBpOpnwYElP/m6wg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{url_for('static', filename='apage.css')}}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/apage.css')}}" />
+    <script src="{{url_for('static', filename='js/account.js')}}"></script>
 </head>
 <body>
     <header class="page-header">
         <div class="container flex-box">
             <nav class="nav-menu">
-                <a href="./home.html" class="nav-logo">Dark Nemesis</a>
+                <a href="{{url_for('main.index')}}" class="nav-logo">Dark Nemesis</a>
                 <ul class="nav-list">
                     <li>
-                        <a href="./home.html" class="link">Home</a>
+                        <a href="{{url_for('main.index')}}" class="link">Home</a>
                     </li>
                     <li>
-                        <a href="./support.html" class="link">Support</a>
+                        <a href="{{url_for('support.support')}}" class="link">Support</a>
+                    </li>
+                    {% if current_user.is_authenticated %}
+                    <li>
+                        <a href="{{url_for('main.account')}}" class="link">Account</a>
                     </li>
                     <li>
-                        <a href="./account.html" class="link" id="acc">Account</a>
+                        <a href="{{url_for('auth.logout')}}" class="link">Logout</a>
                     </li>
+                    {% else %}
+                    <li>
+                        <a href="{{url_for('auth.login')}}" class="link">Log in</a>
+                    </li>
+                    <li>
+                        <a href="{{url_for('auth.register')}}" class="link">Register</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -37,45 +51,45 @@
         <section class="first-section">
             <div class="container first-box">
                 <div class="avatar-div">
-                    <button class="img-but" type="button">
-                        <img class="avatar-img" src="./images/acclogo.png" alt="Avatar of user"/>
+                    <button class="img-but" type="button" data="toggle-modal" modal="third-backdrop">
+                        <img class="avatar-img" src="{{user.avatar(size=220)}}" width="220" alt="Avatar of user"/>
                     </button>
                 </div>
                 <div class="info-div">
-                    <h3 class="nick">Deathrow228</h3>
-                    <p class="user">User</p>
-                    <button type="button" class="but1">Change Email</button>
-                    <button type="button" class="but2">Change Password</button>
+                    <h3 class="nick">{{user.username}}</h3>
+                    <p class="user">{{"Admin" if user.is_admin else "User"}}</p>
+                    <button type="button" class="but1" data="toggle-modal" modal="second-backdrop">Change Email</button>
+                    <button type="button" class="but2" data="toggle-modal" modal="backdrop">Change Password</button>
                 </div>
             </div>
         </section>
         <section class="second-section">
             <div class="container second-box">
                 <div class="div-stats">
-                    <p class="stats">Number od downloaded games: 0</p>
-                    <p class="stats">Comments: 0</p>
+                    <p class="stats">Registration date: {{user.reg_date.date()}}</p>
+                    <p class="stats">Comments: {{user.comments|length}}</p>
                 </div>
                 <div class="div-stats">
-                    <p class="stats">Time spent on the site: 0</p>
-                    <p class="stats">Game rating out of 5: 0</p>
+                    <p class="stats">Number of downloaded games: {{user.download_count}}</p>
+                    <p class="stats">Games rated: {{user.ratings}}</p>
                 </div>
             </div>
         </section>
     </main>
     <footer class="foot-page">
         <div class="container foot-box">
-            <a href="./home.html" class="foot-logo">Dark Nemesis</a>
+            <a href="{{url_for('main.index')}}" class="foot-logo">Dark Nemesis</a>
             <div>
                 <h4 class="menu-link">MENU</h4>
                 <ul class="list-ul">
                     <li>
-                        <a href="./account.html" class="list-link">Account</a>
+                        <a href="{{url_for('main.account')}}" class="list-link">Account</a>
                     </li>
                     <li>
-                        <a href="./support.html" class="list-link">Support</a>
+                        <a href="{{url_for('support.support')}}" class="list-link">Support</a>
                     </li>
                     <li>
-                        <a href="./home.html" class="list-link">Home</a>
+                        <a href="{{url_for('main.index')}}" class="list-link">Home</a>
                     </li>
                 </ul>
             </div>
@@ -119,16 +133,17 @@
         <div class="modal">
             <button type="button" class="close-but">X</button>
             <h1 class="modal-header">Create a new password</h1>
-            <form class="modal-form">
+            <form id="password-form" action="" method="post" class="modal-form">
+                {{ password_form.hidden_tag() }}
                 <label class="form-label">
-                    Password
-                    <input class="form-input" type="password" name="user-password" id="user-password-1" placeholder="Enter Password">
+                    {{password_form.password.label}}
+                    {{password_form.password(class="form-input", placeholder="Enter Password")}}
                 </label>
                 <label class="form-label">
-                    New Password
-                    <input class="form-input" type="password" name="user-password" id="user-new-password" placeholder="Enter new Password">
+                    {{password_form.password2.label}}
+                    {{password_form.password2(class="form-input", placeholder="Enter new Password")}}
                 </label>
-                <button type="submit" class="change-but">Change</button>
+                {{password_form.submit(class="change-but")}}
             </form>
         </div>
     </div>
@@ -137,18 +152,17 @@
         <div class="modal">
             <button type="button" class="close-but">X</button>
             <h1 class="modal-header">Change Email</h1>
-            <form class="modal-form">
+            <form id="email-form" action="" method="post" class="modal-form">
+                {{ email_form.hidden_tag() }}
                 <label class="form-label">
-                    Password
-                    <input class="form-input" type="password" name="user-password-2" id="user_password"
-                        placeholder="Enter Password">
+                    {{email_form.password.label}}
+                    {{email_form.password(class="form-input", placeholder="Enter Password")}}
                 </label>
                 <label class="form-label">
-                    New Email
-                    <input class="form-input" type="email" name="user-email" id="user-email"
-                        placeholder="Enter new Email">
+                    {{email_form.email.label}}
+                    {{email_form.email(class="form-input", placeholder="Enter new Email")}}
                 </label>
-                <button type="submit" class="change-but">Change</button>
+                {{password_form.submit(class="change-but")}}
             </form>
         </div>
     </div>
@@ -158,7 +172,12 @@
             <button type="button" class="close-but">X</button>
             <div class="border-div">
                 <h1 class="modal-header">Change Avatar</h1>
-                <button class="avatar-but" type="submit">Choose new Avatar</button>
+                <form id="avatar-form" action="" method="post" class="modal-form" novalidate>
+                    {{ avatar_form.hidden_tag() }}
+                    {{avatar_form.avatar(style="opacity: 0;", accept="image/*")}}
+                    <button class="avatar-but" type="button">Choose new Avatar</button>
+                    {{avatar_form.submit(class="change-but")}}
+                </form>
             </div>
         </div>
     </div>

@@ -459,6 +459,18 @@ a {
     background: #1843B0;
 }
 
+.form-error {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.success-message {
+    color: green;
+    font-size: 0.8em;
+    margin-bottom: 5px;
+}
+
 
 
 

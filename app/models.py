@@ -26,11 +26,16 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False, index=True)
     username = db.Column(db.String(100), unique=True, nullable=False, index=True)
     password = db.Column(db.String(256), nullable=False)
+    download_count = db.Column(db.Integer, nullable=False, default=0)
     is_admin = db.Column(db.Boolean, default=False)
     is_subscribed = db.Column(db.Boolean, default=False)
     avatar_path = db.Column(db.String(150), unique=True)
     reg_date = db.Column(db.DateTime, default=lambda: datetime.datetime.utcnow())
     comments = relationship('Comment', back_populates='user')
+
+    @property
+    def ratings(self):
+        return db.session.query(UserGameRating).filter_by(user_id=self.id).count()
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -39,8 +44,11 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password, password)
 
     def avatar(self, size):
-        digest = md5(self.email.lower().encode("utf-8")).hexdigest()
-        return f"https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}"
+        if self.avatar_path:
+            return generate_public_url(self.avatar_path)
+        else:
+            digest = md5(self.email.lower().encode("utf-8")).hexdigest()
+            return f"https://www.gravatar.com/avatar/{digest}?d=identicon&s={size}"
 
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode({"reset_password": self.id, "exp": time() + expires_in}, current_app.config['SECRET_KEY'],

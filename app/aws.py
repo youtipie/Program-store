@@ -25,6 +25,21 @@ def generate_public_url(file_name, timeout=300):
     return url
 
 
+def upload_avatar(user_id, file, filename):
+    s3_client = get_client()
+    try:
+        key = f'avatars/{user_id}/avatar.{filename.split(".")[-1]}'
+        s3_client.put_object(
+            Bucket=current_app.config["AWS_BUCKET"],
+            Key=key,
+            Body=file
+        )
+        return key
+    except Exception as e:
+        print(f"Error uploading file: {e}")
+        return False
+
+
 def replace_special_characters(input_text):
     special_characters = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
 
