@@ -31,8 +31,28 @@ $(document).ready(function(){
                     </label>
                 `);
             }
+
             $("input[name='categor']").on("change", function(){
                 var data = get_data();
+                get_games(data);
+            });
+
+            category_list.append(`
+                <select class="select-sorting" name="sorting" id="sorting">
+                    <option value=""></option>
+                    <option value="popularity">The most popular</option>
+                    <option value="rating">Rating</option>
+                    <option value="title">Alphabetically</option>
+                    <option value="last_changed">Last updated</option>
+                    <option value="apk_size">Apk size</option>
+                    <option value="cache_size">Cache size</option>
+                    <option value="category_id">Category</option>
+                </select>
+            `);
+
+            $(".select-sorting").on("change", function(){
+                var data = get_data();
+                data.page = $(".active").attr("data");
                 get_games(data);
             });
         }
@@ -192,6 +212,10 @@ $(document).ready(function(){
         }
         if (search_val != "") {
             data.title = search_val;
+        }
+        order_value = $(".select-sorting").val();
+        if (order_value){
+            data.order = order_value;
         }
         return data;
     }

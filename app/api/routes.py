@@ -30,7 +30,7 @@ def get_games():
         return jsonify({"success": False, "message": "Bad values"}), 400
 
     if order not in ["id", "title", "category_id", "is_paid", "apk_size",
-                     "cache_size", "rating", "popularity"]:
+                     "cache_size", "rating", "popularity", "last_changed"]:
         return jsonify({"success": False, "message": "Cannot order by specified field"}), 400
 
     categories = db.session.query(Category).all()
@@ -44,11 +44,20 @@ def get_games():
 
     if title:
         games = games.with_entities(Game, func.similarity(Game.title, title).label('similarity')). \
-            filter(Game.title.bool_op("%")(title)). \
-            order_by(
-            func.similarity(Game.title, title).desc(),
-            getattr(Game, order).desc() if desc else getattr(Game, order)
-        )
+            filter(Game.title.bool_op("%")(title))
+        if order == "rating":
+            games = games.order_by(
+                func.similarity(Game.title, title).desc()
+            )
+        else:
+            games = games.order_by(
+                func.similarity(Game.title, title).desc(),
+                getattr(Game, order).desc() if desc else getattr(Game, order)
+            )
+
+    else:
+        if order != "rating":
+            games = games.order_by(getattr(Game, order).desc() if desc else getattr(Game, order))
 
     games = games.paginate(
         page=page,
@@ -56,6 +65,8 @@ def get_games():
             "ITEMS_PER_PAGE"],
         error_out=False
     )
+
+    games_list = [game.to_dict() if not title else game[0].to_dict() for game in games]
 
     next_page = games.next_num if games.has_next else None
     prev_page = games.prev_num if games.has_prev else None
@@ -78,7 +89,8 @@ def get_games():
         "total_games": games.total,
         "total_pages": total_pages,
         "per_page": current_app.config["ITEMS_PER_PAGE"],
-        "games": [game.to_dict() if not title else game[0].to_dict() for game in games]
+        "games": games_list if order != "rating" else sorted(games_list, key=lambda x: x["rating"],
+                                                             reverse=True if desc else False)
     }), 200
 
 
