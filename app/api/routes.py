@@ -231,3 +231,25 @@ def delete_game():
         return jsonify({"success": True})
     else:
         return jsonify({"success": False, "message": "Some unexpected error occured"}), 500
+
+
+@bp.route("/delete_comment", methods=["DELETE"])
+def delete_comment():
+    if not current_user.is_authenticated:
+        return jsonify({"success": False, "message": "User mush be logged in"}), 403
+    else:
+        if not current_user.is_admin:
+            return jsonify({"success": False, "message": "User must be admin"}), 403
+    try:
+        game_id = request.args.get("game_id", type=int)
+        comment_id = request.args.get("comment_id", type=int)
+        comment = db.session.query(Comment).filter_by(id=comment_id).first()
+        game = db.session.query(Game).filter_by(id=game_id).first()
+        if not game and not comment:
+            return jsonify({"success": False, "message": "No game or comment with such id"}), 404
+    except ValueError or TypeError:
+        return jsonify({"success": False, "message": "Bad values"}), 400
+
+    db.session.delete(comment)
+    db.session.commit()
+    return jsonify({"success": True})
