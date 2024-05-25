@@ -61,7 +61,7 @@ $(document).ready(function(){
                         <div class="game-card">
                             <img src="${data.games[i].poster}" alt="Game Photo" width="264">
                             <div class="game-desc">
-                                <h3 class="game-title">${data.games[i].title}</h3>
+                                <h3 class="game-title">${data.games[i].title} <svg data-game-id="${data.games[i].id}" width="32" height="28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#c31d1d" d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg></h3>
                                 <div class="divbut">
                                     <p class="game-categ">${data.games[i].category_name}</p>
                                     <button class="but" data-game-url="${data.games[i].game_url}" data-game-id="${data.games[i].id}">MORE</button>
@@ -72,6 +72,46 @@ $(document).ready(function(){
                     </li>
                   `);
                 }
+
+                $.ajax({
+                    url: `api/get_user_status`,
+                    method: 'GET',
+                    success: function(response) {
+                        if (response.success) {
+                            if (response.user_status == "Admin"){
+                                $(".game-desc svg").show();
+                            }
+                        } else {
+                            console.error('Failed to retrieve user status:', response.message);
+                        }
+                        },
+                    error: function(err) {
+                        $(".game-desc svg").hide();
+                        console.error('Error retrieving user status:', err);
+                    }
+                });
+
+                $(".game-desc svg").click(function(){
+                    game_id = $(this).data("game-id");
+
+                    $.ajax({
+                        url: `api/delete_game?game_id=${game_id}`,
+                        method: 'DELETE',
+                        success: function(response) {
+                            if (response.success) {
+                                var data = get_data();
+                                data.page = $(".active").attr("data");
+                                get_games(data);
+                            } else {
+                                console.error('Failed to delete game:', response.message);
+                            }
+                            },
+                        error: function(err) {
+                            $(".game-desc svg").hide();
+                            console.error('Error deleting game:', err);
+                        }
+                    });
+                });
 
                 $(".game-desc .divbut button.but").click(function(){
                    game_id = $(this).data("game-id");

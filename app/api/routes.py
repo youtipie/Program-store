@@ -1,5 +1,6 @@
 from flask import current_app, request, url_for, jsonify, redirect
 from flask_login import current_user
+from app.aws import delete_folder
 from app import db
 from app.models import User, Category, Game, Comment, UserGameRating
 from app.api import bp
@@ -180,3 +181,53 @@ def add_download_count():
     user.download_count += 1
     db.session.commit()
     return jsonify({"success": True, "message": "Download count increased"})
+
+
+@bp.route("/get_user_status")
+def get_user_status():
+    if not current_user.is_authenticated:
+        return jsonify({"success": False, "message": "User mush be logged in"}), 403
+    user = current_user
+    return jsonify({"success": True, "user_status": "Admin" if user.is_admin else "User"})
+
+
+def delete_game_helper(game):
+    try:
+        for comment in game.comments:
+            db.session.delete(comment)
+
+        for image in game.images:
+            db.session.delete(image)
+
+        for rates in db.session.query(UserGameRating).filter_by(game=game).all():
+            db.session.delete(rates)
+
+        delete_folder(f"data/{game.folder_name}")
+
+        db.session.delete(game)
+        db.session.commit()
+        return True
+    except Exception as e:
+        print("Error deleting game", e)
+        db.session.rollback()
+        return False
+
+
+@bp.route("/delete_game", methods=["DELETE"])
+def delete_game():
+    if not current_user.is_authenticated:
+        return jsonify({"success": False, "message": "User mush be logged in"}), 403
+    else:
+        if not current_user.is_admin:
+            return jsonify({"success": False, "message": "User must be admin"}), 403
+    try:
+        game_id = request.args.get("game_id", type=int)
+        game = db.session.query(Game).filter_by(id=game_id).first()
+        if not game:
+            return jsonify({"success": False, "message": "No game with such id"}), 404
+    except ValueError or TypeError:
+        return jsonify({"success": False, "message": "Bad values"}), 400
+    if delete_game_helper(game):
+        return jsonify({"success": True})
+    else:
+        return jsonify({"success": False, "message": "Some unexpected error occured"}), 500

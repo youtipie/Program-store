@@ -40,6 +40,30 @@ def upload_avatar(user_id, file, filename):
         return False
 
 
+def delete_folder(folder_key):
+    s3_client = get_client()
+    try:
+        objects_to_delete = s3_client.list_objects_v2(
+            Bucket=current_app.config["AWS_BUCKET"],
+            Prefix=folder_key
+        )
+        if 'Contents' in objects_to_delete:
+            delete_keys = [{'Key': obj['Key']} for obj in objects_to_delete['Contents']]
+
+            response = s3_client.delete_objects(
+                Bucket=current_app.config["AWS_BUCKET"],
+                Delete={'Objects': delete_keys}
+            )
+            print(f"Deleted: {response['Deleted']}")
+            return True
+        else:
+            print("No objects found to delete.")
+            return False
+    except Exception as e:
+        print(f"Error deleting folder: {e}")
+        return False
+
+
 def replace_special_characters(input_text):
     special_characters = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
 
