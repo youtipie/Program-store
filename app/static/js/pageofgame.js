@@ -175,41 +175,6 @@ $(document).ready(function() {
         });
     }
 
-    function fetchGameRatingTokens(gameId) {
-        $.ajax({
-            url: `api/get_rate_game_tokens?game_id=${gameId}`,
-            method: 'GET',
-            success: function(data) {
-                if (data.success) {
-                    $(".rating-but").click(function(){
-                        token = data.tokens[parseInt($(this).text()) - 1];
-
-                        $.ajax({
-                            url: `api/rate_game?token=${token}`,
-                            method: 'GET',
-                            success: function(data) {
-                                if (data.success) {
-                                    alert("You successfully rated the game!")
-                                } else {
-                                    console.error('Failed to rate:', response.message);
-                                }
-                                },
-                            error: function(err) {
-                                alert("You have already voted!")
-                                console.error('Error rating game:', err);
-                            }
-                        });
-                    });
-                } else {
-                    console.error('Failed to fetch tokens:', response.message);
-                }
-                },
-            error: function(err) {
-                console.error('Error fetching tokens:', err);
-            }
-        });
-    }
-
     function getQueryParam(param) {
         const urlParams = (new URL(location.href)).searchParams;
         return urlParams.get(param);
@@ -219,7 +184,6 @@ $(document).ready(function() {
     if (gameId) {
         fetchGameData(gameId);
         fetchGameComments({"game_id": gameId});
-        fetchGameRatingTokens(gameId);
     } else {
         console.error('No game ID found in URL.');
     }
@@ -261,6 +225,26 @@ $(document).ready(function() {
                     displayFormErrors("comment-form", errors);
                 }
                 console.log(error);
+            }
+        });
+    });
+
+    $(".rating-but").click(function(){
+        rating = parseInt($(this).text());
+
+        $.ajax({
+            url: `api/rate_game?game_id=${gameId}&rating=${rating}`,
+            method: 'POST',
+            success: function(data) {
+                if (data.success) {
+                    alert("You successfully rated the game!")
+                } else {
+                    console.error('Failed to rate:', response.message);
+                }
+                },
+            error: function(err) {
+                alert("You have already voted!")
+                console.error('Error rating game:', err);
             }
         });
     });

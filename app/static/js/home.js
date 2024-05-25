@@ -54,60 +54,40 @@ $(document).ready(function(){
                 game_list.empty();
                 pagination.empty();
 
-                ids = data.games.map(game => game.id);
+                for (let i = 0; i < data.games.length; i++) {
+                  var rating_class = ["rating-par0", "rating-par1", "rating-par2", "rating-par3", "rating-par4", "rating-par5"][data.games[i].rating];
+                  game_list.append(`
+                    <li class="list-li">
+                        <div class="game-card">
+                            <img src="${data.games[i].poster}" alt="Game Photo" width="264">
+                            <div class="game-desc">
+                                <h3 class="game-title">${data.games[i].title}</h3>
+                                <div class="divbut">
+                                    <p class="game-categ">${data.games[i].category_name}</p>
+                                    <button class="but" data-game-url="${data.games[i].game_url}" data-game-id="${data.games[i].id}">MORE</button>
+                                </div>
+                                <p class="${rating_class}">${data.games[i].rating}</p>
+                            </div>
+                        </div>
+                    </li>
+                  `);
+                }
 
-                $.ajax({
-                    url: `api/get_popularity_tokens`,
-                    method: 'GET',
-                    contentType: "application/json",
-                    data: { "ids": ids },
-                    traditional: true,
-                    success: function(response) {
-                        if (response.success) {
-                            var tokens = response.tokens;
+                $(".game-desc .divbut button.but").click(function(){
+                   game_id = $(this).data("game-id");
+                   gameUrl = $(this).data("game-url");
 
-                            for (let i = 0; i < data.games.length; i++) {
-                              var rating_class = ["rating-par0", "rating-par1", "rating-par2", "rating-par3", "rating-par4", "rating-par5"][data.games[i].rating];
-                              game_list.append(`
-                                <li class="list-li">
-                                    <div class="game-card">
-                                        <img src="${data.games[i].poster}" alt="Game Photo" width="264">
-                                        <div class="game-desc">
-                                            <h3 class="game-title">${data.games[i].title}</h3>
-                                            <div class="divbut">
-                                                <p class="game-categ">${data.games[i].category_name}</p>
-                                                <button class="but" data-game-url="${data.games[i].game_url}" data-token="${tokens[i]}">MORE</button>
-                                            </div>
-                                            <p class="${rating_class}">${data.games[i].rating}</p>
-                                        </div>
-                                    </div>
-                                </li>
-                              `);
-                            }
-
-                            $(".game-desc .divbut button.but").click(function(){
-                               gameUrl = $(this).data("game-url");
-                               token = $(this).data("token");
-
-                               window.location = gameUrl;
-                               $.ajax({
-                                   url: `api/add_popularity?token=${token}`,
-                                   method: 'POST',
-                                   success: function(response) {
-                                           console.log("Added popularity!");
-                                    },
-                                    error: function(err) {
-                                       console.error('Error getting token:', err);
-                                    }
-                               });
-                            });
-                        } else {
-                            console.error('Failed to get tokens:', response.message);
-                        }
+                   window.location = gameUrl;
+                   $.ajax({
+                       url: `api/add_popularity?game_id=${game_id}`,
+                       method: 'POST',
+                       success: function(response) {
+                               console.log("Added popularity!");
                         },
-                    error: function(err) {
-                        console.error('Error getting token:', err);
-                    }
+                        error: function(err) {
+                           console.error('Error getting token:', err);
+                        }
+                   });
                 });
 
                 let current_page = data.current_page;

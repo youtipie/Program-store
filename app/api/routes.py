@@ -97,10 +97,13 @@ def get_game():
 
 @bp.route("/add_popularity", methods=["POST"])
 def add_popularity():
-    token = request.args.get("token", "", type=str)
-    game = Game.verify_popularity_token(token)
-    if not game:
-        return jsonify({"success": False, "message": "Bad token"}), 400
+    try:
+        game_id = request.args.get("game_id", type=int)
+        game = db.session.query(Game).filter_by(id=game_id).first()
+        if not game:
+            return jsonify({"success": False, "message": "No game with such id"}), 404
+    except ValueError or TypeError:
+        return jsonify({"success": False, "message": "Bad values"}), 400
     game.popularity += 1
     db.session.commit()
     return {"success": True}, 200
@@ -146,47 +149,27 @@ def get_comments():
     }), 200
 
 
-@bp.route("/rate_game", methods=["GET"])
+@bp.route("/rate_game", methods=["POST"])
 def rate_game():
-    token = request.args.get("token", "", type=str)
-
-    game, user, rating = Game.verify_rating_token(token)
-    if rating:
-        db.session.add(UserGameRating(user=user, game=game, rating=rating))
-        db.session.commit()
-        return jsonify({"success": True, "message": "Rating successfully added"}), 200
-    else:
-        return jsonify({"success": False, "message": "User have already voted or token is invalid"}), 400
-
-
-@bp.route("/get_rate_game_tokens", methods=["GET"])
-def get_rate_game_token():
-    if not current_user.is_authenticated:
-        return jsonify({"success": False, "message": "User mush be logged in"}), 403
     try:
         game_id = request.args.get("game_id", type=int)
-        user = current_user
+        rating = request.args.get("rating", type=int)
+        if current_user.is_authenticated and rating:
+            user = current_user
+        else:
+            raise ValueError
         game = db.session.query(Game).filter_by(id=game_id).first()
         if not game:
             return jsonify({"success": False, "message": "No game with such id"}), 404
     except ValueError or TypeError:
         return jsonify({"success": False, "message": "Bad values"}), 400
 
-    return jsonify(
-        {"success": True, "tokens": [game.create_rating_token(user.id, rating) for rating in range(1, 6)]})
-
-
-@bp.route("/get_popularity_tokens", methods=["GET"])
-def get_popularity_token():
-    try:
-        ids = request.args.getlist("ids")
-        if not ids:
-            raise ValueError("Missing or empty 'ids' parameter")
-    except ValueError or TypeError:
-        return jsonify({"success": False, "message": "Bad values"}), 400
-    return jsonify(
-        {"success": True, "tokens": [game.create_popularity_token() for game in
-                                     db.session.query(Game).filter(Game.id.in_(ids)).all()]})
+    if game not in [g.game for g in user.games_rated]:
+        db.session.add(UserGameRating(user=user, game=game, rating=rating))
+        db.session.commit()
+        return jsonify({"success": True, "message": "Rating successfully added"}), 200
+    else:
+        return jsonify({"success": False, "message": "User already rated this game"}), 403
 
 
 @bp.route("/add_download_count", methods=["POST"])
