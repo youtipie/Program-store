@@ -74,3 +74,12 @@ def account():
         return jsonify({"errors": errors}), 400
     return render_template("account.html", user=user, password_form=password_form, email_form=email_form,
                            avatar_form=avatar_form)
+
+
+@bp.route("/add-game", methods=["GET", "POST"])
+@login_required
+def add_game():
+    if not current_user.is_admin:
+        return jsonify({"success": False, "message": "This page is for admin only!"}), 403
+
+    return render_template("pageofadmin.html")
