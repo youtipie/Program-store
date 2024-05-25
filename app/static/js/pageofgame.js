@@ -51,6 +51,20 @@ $(document).ready(function() {
                         $("#apk-size").text(Math.round(gameData.apk_size) + " Mb");
                         $("#apk-download").click(function(){
                             window.location = gameData.apk_url;
+                            $.ajax({
+                                url: `api/add_download_count`,
+                                method: 'POST',
+                                success: function(response) {
+                                    if (response.success) {
+                                        console.log(response.message);
+                                    } else {
+                                        console.error('Failed to add download_count:', response.message);
+                                    }
+                                    },
+                                error: function(err) {
+                                    console.error('Error adding download_count:', err);
+                                }
+                            });
                         });
 
                         if (gameData.cache_name){

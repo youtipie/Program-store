@@ -187,3 +187,13 @@ def get_popularity_token():
     return jsonify(
         {"success": True, "tokens": [game.create_popularity_token() for game in
                                      db.session.query(Game).filter(Game.id.in_(ids)).all()]})
+
+
+@bp.route("/add_download_count", methods=["POST"])
+def add_download_count():
+    if not current_user.is_authenticated:
+        return jsonify({"success": False, "message": "User mush be logged in"}), 403
+    user = current_user
+    user.download_count += 1
+    db.session.commit()
+    return jsonify({"success": True, "message": "Download count increased"})
