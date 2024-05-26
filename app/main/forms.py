@@ -3,6 +3,8 @@ from flask_wtf.file import FileRequired, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, FileField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email
+from app import db
+from app.models import Game
 
 
 class EmailForm(FlaskForm):
@@ -36,3 +38,14 @@ class AvatarForm(FlaskForm):
 class CommentForm(FlaskForm):
     comment = TextAreaField("Enter your comment", validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+
+class AddGameForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    description = TextAreaField("Description", validators=[DataRequired()])
+    submit = SubmitField("Add game")
+
+    def validate_title(self, title):
+        game = db.session.query(Game).filter_by(title=title.data).first()
+        if game:
+            raise ValidationError("Game with such title exists!")

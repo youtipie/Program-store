@@ -20,52 +20,91 @@
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{url_for('static', filename='js/pageofadmin.js')}}"></script>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/poapage.css')}}" />
+     <link rel="stylesheet" href="{{url_for('static', filename='css/poapage.css')}}" />
 </head>
 
 <body>
+    <header class="page-header">
+        <div class="container flex-box">
+            <nav class="nav-menu">
+                    <a href="{{url_for('main.index')}}" class="nav-logo">Dark Nemesis</a>
+                    <ul class="nav-list">
+                        <li>
+                            <a href="{{url_for('main.index')}}" class="link">Home</a>
+                        </li>
+                        <li>
+                            <a href="{{url_for('support.support')}}" class="link">Support</a>
+                        </li>
+                        {% if current_user.is_authenticated %}
+                        {% if current_user.is_admin %}
+                        <li>
+                            <a href="{{url_for('main.add_game')}}" class="link">Add game</a>
+                        </li>
+                        {% endif %}
+                        <li>
+                            <a href="{{url_for('main.account')}}" class="link">Account</a>
+                        </li>
+                        <li>
+                            <a href="{{url_for('auth.logout')}}" class="link">Logout</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="{{url_for('auth.login')}}" class="link">Log in</a>
+                        </li>
+                        <li>
+                            <a href="{{url_for('auth.register')}}" class="link">Register</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+        </div>
+    </header>
     <main>
-        <section class="first-section">
-            <div class="first-box">
-                <form class="select-img"><svg class="icon icon-down-svg" id="icon-down-svg" viewBox="0 0 32 32">
-                    <path d="M23 14l-8 8-8-8h5v-12h6v12zM15 22h-15v8h30v-8h-15zM28 26h-4v-2h4v2z"></path>
-                </svg>
-                <span class="button-span">Drag and drop files</span>
-                </form>
-                <div class="title-of-game-div">
-                    <input class="title-of-game" type="text" name="games-name" id="games-name" placeholder="Enter name of game">
-                    <input class="pay-for-game" type="checkbox" name="subscription" id="subscription">
-                </div>
-                <div class="categories-div">
-                    <select class="categories-select" id="name-of-categories" name="name-of-categories">
-                        <option value="without">Choose categories</option>
-                        <option value="themostpopular">ACTION</option>
-                        <option value="thenewwest">ADVENTURE</option>
-                        <option value="theoldest">ARCADE</option>
-                        <option value="themostpopular">FIGHTING</option>
-                        <option value="thenewwest">HORROR</option>
-                        <option value="theoldest">PUZZLE</option>
-                        <option value="themostpopular">RACING</option>
-                        <option value="thenewwest">RPG</option>
-                        <option value="theoldest">SIMULATION</option>
-                        <option value="theoldest">STRATEGY</option>
-                    </select>
-                    <button type="button" class="add-categories-but"><svg class="plus-icon" id="icon-plus" viewBox="0 0 32 32" aria-hidden="true" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <path
-                            d="M31 12h-11v-11c0-0.552-0.448-1-1-1h-6c-0.552 0-1 0.448-1 1v11h-11c-0.552 0-1 0.448-1 1v6c0 0.552 0.448 1 1 1h11v11c0 0.552 0.448 1 1 1h6c0.552 0 1-0.448 1-1v-11h11c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1z">
-                        </path>
-                    </svg></button>
-                    <button type="button" class="return-but">
-                        <svg class="second-icon" id="icon-undo" viewBox="0 0 32 32" aria-hidden="true" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <section class="first-section" style="display: flex; justify-content: center;">
+            <form id="game-form" action="" method="post" novalidate>
+                {{ form.hidden_tag() }}
+                <div class="first-box">
+                    <div class="select-img"><svg class="icon icon-down-svg" id="icon-down-svg" viewBox="0 0 32 32">
+                        <path d="M23 14l-8 8-8-8h5v-12h6v12zM15 22h-15v8h30v-8h-15zM28 26h-4v-2h4v2z"></path>
+                    </svg>
+                    <span class="button-span">Drag and drop files</span>
+                    </div>
+                    <div class="title-of-game-div">
+                        {{form.title(class="title-of-game", placeholder="Enter name of game")}}
+                        <input class="pay-for-game" type="checkbox" name="subscription" id="subscription">
+                    </div>
+                    <div class="categories-div">
+                        <select class="categories-select" id="name-of-categories" name="category">
+
+                        </select>
+                        <input type="text" name="new_category" class="title-of-game" style="display:none;" placeholder="Enter new category name">
+                        <button type="button" class="add-categories-but"><svg class="plus-icon" id="icon-plus" viewBox="0 0 32 32" aria-hidden="true" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink">
                             <path
-                                d="M23.808 32c3.554-6.439 4.153-16.26-9.808-15.932v7.932l-12-12 12-12v7.762c16.718-0.436 18.58 14.757 9.808 24.238z">
+                                d="M31 12h-11v-11c0-0.552-0.448-1-1-1h-6c-0.552 0-1 0.448-1 1v11h-11c-0.552 0-1 0.448-1 1v6c0 0.552 0.448 1 1 1h11v11c0 0.552 0.448 1 1 1h6c0.552 0 1-0.448 1-1v-11h11c0.552 0 1-0.448 1-1v-6c0-0.552-0.448-1-1-1z">
                             </path>
-                        </svg>
-                    </button>
+                        </svg></button>
+                        <button style="display: none;" type="button" class="return-but">
+                            <svg class="second-icon" id="icon-undo" viewBox="0 0 32 32" aria-hidden="true" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <path
+    d="M23.808 32c3.554-6.439 4.153-16.26-9.808-15.932v7.932l-12-12 12-12v7.762c16.718-0.436 18.58 14.757 9.808 24.238z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <table class="files-table">
+                        <tr>
+                            <th class="table-title">list of downloaded files</th>
+                        </tr>
+
+                    </table>
+                    {{form.description(class="desc-of-new-game", placeholder="Enter description", rows="5")}}
                 </div>
-            </div>
+                <span class="error-message"></span><br>
+                {{form.submit(class="add-new-game-but")}}
+            </form>
         </section>
     </main>
 </body>

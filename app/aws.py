@@ -25,6 +25,20 @@ def generate_public_url(file_name, timeout=300):
     return url
 
 
+def upload_file(file, filename):
+    s3_client = get_client()
+    try:
+        s3_client.put_object(
+            Bucket=current_app.config["AWS_BUCKET"],
+            Key=filename,
+            Body=file
+        )
+        return True
+    except Exception as e:
+        print(f"Error uploading file: {e}")
+        return False
+
+
 def upload_avatar(user_id, file, filename):
     s3_client = get_client()
     try:

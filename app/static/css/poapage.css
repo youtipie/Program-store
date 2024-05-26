@@ -27,13 +27,66 @@ ol {
     padding-left: 0;
 }
 
-img {
-    display: block;
-}
-
 a {
     text-decoration: none;
     color: #ffffff;
+}
+
+.flex-box {
+    max-width: 1440px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 153px;
+}
+
+.nav-menu {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    font-family: "Lacquer", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    color: #fff;
+    padding: 0;
+    padding-top: 25px;
+}
+
+.nav-list {
+    display: flex;
+    gap: 99px;
+    padding-bottom: 38px;
+}
+
+.nav-list .link {
+    display: block;
+    padding-top: 25px;
+    font-family: "Lacquer", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+}
+
+.nav-list .link:hover,
+.nav-list .link:focus {
+    color: #1843B0;
+}
+
+.header-p {
+    display: block;
+    margin: 231px 240px 268px 240px;
+    text-align: center;
+    font-family: "Istok Web", sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    text-transform: capitalize;
+    text-align: center;
+    color: #fff;
+    max-width: 800;
+    letter-spacing: 2%;
+    line-height: 40px;
 }
 
 /* ==========This is first section========== */
@@ -97,6 +150,7 @@ a {
     display: flex;
     align-items: center;
     gap: 5px;
+    margin-bottom: 15px;
 }
 
 .categories-select {
@@ -115,7 +169,7 @@ a {
     stroke-width: 0;
     stroke: #000000;
     fill: #000000;
-}   
+}
 
 .add-categories-but:hover .plus-icon,
 .add-categories-but:focus .plus-icon {
@@ -139,4 +193,60 @@ a {
 .return-but:hover .second-icon,
 .return-but:focus .second-icon{
     fill: #3964d3;
+}
+
+.files-table {
+    display: flex;
+    background-color: #ffffff;
+    color: #000000;
+    width: 700px;
+    border: 3px solid #000000;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.table-title {
+    border-bottom: 1px solid #000;
+    padding-left: 30px;
+}
+
+.table-column {
+    font-weight: 300;
+    justify-content: center;
+}
+
+.table-input {
+    border: none;
+}
+
+.desc-of-new-game {
+    width: 700px;
+    resize: none;
+    margin-bottom: 15px;
+}
+
+.add-new-game-but {
+    background-color: #3964d3;
+    border: none;
+    color: #ffffff;
+    margin-bottom: 90px;
+    width: 150px;
+    height: 40px;
+}
+
+.add-new-game-but:hover,
+.add-new-game-but:focus {
+    background-color: #1843B0;
+}
+
+.form-error {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+.success-message {
+    color: green;
+    font-size: 0.8em;
+    margin-bottom: 5px;
 }
