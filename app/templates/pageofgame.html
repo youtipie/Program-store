@@ -107,9 +107,12 @@
         </section>
         <section class="third-section">
             <div class="container third-box">
-                {% if current_user.is_authenticated %}
                 <div class="create-comment">
+                    {% if current_user.is_authenticated %}
                     <form id="comment-form" action="" method="post">
+                    {% else %}
+                    <form hidden id="comment-form" action="" method="post">
+                    {% endif %}
                         {{ form.hidden_tag() }}
                         <label class="comment-label">
                             COMMENT
@@ -118,7 +121,6 @@
                         {{ form.submit(class="send-but") }}
                     </form>
                 </div>
-                {% endif %}
                 <div class="other-comment">
                     <h3 class="numberofcomments">----- Comments</h3>
                     <div id="comments">
