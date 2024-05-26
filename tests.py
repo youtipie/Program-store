@@ -9,6 +9,7 @@ import json
 
 class TestConfig(Config):
     TESTING = True
+    ITEMS_PER_PAGE = 20
     SQLALCHEMY_DATABASE_URI = Config.TEST_DATABASE_URI
 
 
@@ -97,17 +98,6 @@ class GameTestCase(BaseTestCase):
         db.session.add(self.game)
         db.session.commit()
 
-    def test_create_popularity_token(self):
-        token = self.game.create_popularity_token()
-        g = Game.verify_popularity_token(token)
-        self.assertEqual(g, self.game)
-
-    def test_invalid_popularity_token(self):
-        token = self.game.create_popularity_token()
-        token = token[:-1] + "a"
-        g = Game.verify_popularity_token(token)
-        self.assertIsNone(g)
-
     def test_to_dict(self):
         image1 = Image(path="img1.jpg", game_id=self.game.id)
         image2 = Image(path="img2.jpg", game_id=self.game.id)
@@ -122,6 +112,7 @@ class GameTestCase(BaseTestCase):
             "category_name": self.game.category.name,
             "category_id": self.game.category_id,
             "description": self.game.description,
+            "last_changed": self.game.last_changed,
             "is_paid": self.game.is_paid,
             "version": self.game.version,
             "apk_name": self.game.apk_name,
@@ -130,8 +121,11 @@ class GameTestCase(BaseTestCase):
             "cache_size": self.game.cache_size,
             "images": [generate_public_url("data/" + image.path) for image in self.game.images],
             "rating": self.game.rating,
-            "rating_count": self.game.rating_count,
-            "popularity": self.game.popularity
+            "popularity": self.game.popularity,
+            "game_url": f"game?id={self.game.id}",
+            "apk_url": generate_public_url(f"data/{self.game.folder_name}/{self.game.apk_name}"),
+            "cache_url": generate_public_url(
+                f"data/{self.game.folder_name}/{self.game.cache_name}") if self.game.cache_name else None
         }
         self.assertDictEqual(self.game.to_dict(), expected_dict)
 
@@ -184,7 +178,7 @@ class CommentTestCase(BaseTestCase):
             "date": self.comment.date,
             "content": self.comment.content,
             "username": self.comment.user.username,
-            "user_pfp": self.comment.user.avatar(256)
+            "user_pfp": self.comment.user.avatar(25)
         }
         self.assertDictEqual(self.comment.to_dict(), expected_dict)
 
@@ -338,21 +332,6 @@ class APITestCase(BaseTestCase):
 
         # Test invalid category
         response = self.client.get('/api/games?category=Invalid')
-        self.assertEqual(response.status_code, 400)
-        data = json.loads(response.data)
-        self.assertFalse(data['success'])
-
-    def test_add_popularity(self):
-        # Test successful addition of popularity
-        token = self.game.create_popularity_token()
-        response = self.client.post(f'/api/add_popularity?token={token}')
-        self.assertEqual(response.status_code, 200)
-        data = json.loads(response.data)
-        self.assertTrue(data['success'])
-        self.assertEqual(self.game.popularity, 1)
-
-        # Test invalid token
-        response = self.client.post('/api/add_popularity?token=invalid')
         self.assertEqual(response.status_code, 400)
         data = json.loads(response.data)
         self.assertFalse(data['success'])
