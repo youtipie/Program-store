@@ -7,38 +7,38 @@ from app.models import User
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Пошта", validators=[DataRequired(), Email()])
-    password = PasswordField("Пароль", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
     recaptcha = RecaptchaField()
-    submit = SubmitField("Увійти")
+    submit = SubmitField("Log in")
 
 
 class RegisterForm(FlaskForm):
-    username = StringField("Нікнейм", validators=[DataRequired()])
-    email = StringField("Пошта", validators=[DataRequired(), Email()])
-    password = PasswordField("Пароль", validators=[DataRequired()])
-    password2 = PasswordField("Повторіть пароль", validators=[DataRequired(), EqualTo("password")])
+    username = StringField("Username", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    password2 = PasswordField("Repeat password", validators=[DataRequired(), EqualTo("password")])
     recaptcha = RecaptchaField()
-    submit = SubmitField("Зареєструватись")
+    submit = SubmitField("Register")
 
     def validate_username(self, username):
         user = db.session.query(User).filter_by(username=username.data).first()
         if user is not None:
-            raise ValidationError("Користувач з таким нікнеймом уже існує. Увійдіть або використайте інший нікнейм.")
+            raise ValidationError("User with such username exists. Log in or use other username.")
 
     def validate_email(self, email):
         user = db.session.query(User).filter_by(username=email.data).first()
         if user is not None:
-            raise ValidationError("Користувач з такою поштою уже існує. Увійдіть або використайте іншу пошту.")
+            raise ValidationError("User with such email exists. Log in or use other email.")
 
 
 class ResetPasswordRequestForm(FlaskForm):
-    email = StringField("Пошта", validators=[DataRequired(), Email()])
-    submit = SubmitField("Відновити")
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    submit = SubmitField("Recover")
 
 
 class ResetPasswordForm(FlaskForm):
-    password = PasswordField("Пароль", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
     password2 = PasswordField(
-        'Повторіть Пароль', validators=[DataRequired(), EqualTo("password")])
-    submit = SubmitField("Підтвердити")
+        'Repeat password', validators=[DataRequired(), EqualTo("password")])
+    submit = SubmitField("Confirm")
