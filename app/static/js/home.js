@@ -27,8 +27,8 @@ $(document).ready(function(){
             error: function(err) {
                 $(".change-icon").hide();
                 $(".delete-icon").hide();
-                $(".change-category-icon").show();
-                $(".delete-category-icon").show();
+                $(".change-category-icon").hide();
+                $(".delete-category-icon").hide();
                 console.error('Error retrieving user status:', err);
             }
         });
