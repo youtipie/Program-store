@@ -27,7 +27,7 @@ class RegisterForm(FlaskForm):
             raise ValidationError("User with such username exists. Log in or use other username.")
 
     def validate_email(self, email):
-        user = db.session.query(User).filter_by(username=email.data).first()
+        user = db.session.query(User).filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError("User with such email exists. Log in or use other email.")
 
