@@ -13,7 +13,7 @@ $(document).ready(function(){
 
             for (let i = 0; i < data.categories.length; i++){
                 category_list.append(`
-                    <option value="${data.categories[i]}">${data.categories[i]}</option>
+                    <option value="${data.categories[i].name}">${data.categories[i].name}</option>
                 `);
             }
         }
