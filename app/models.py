@@ -98,6 +98,17 @@ class Game(db.Model):
         else:
             return 0
 
+    def delete_image_by_name(self, image_name):
+        image_to_delete = next((image for image in self.images if image.path.split("/")[-1] == image_name), None)
+        if image_to_delete:
+            db.session.delete(image_to_delete)
+            db.session.commit()
+            return True
+        return False
+
+    def update_last_change(self):
+        self.last_changed = datetime.datetime.utcnow()
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -132,6 +143,12 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     games = db.relationship("Game", backref="category")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
 
 
 class Comment(db.Model):

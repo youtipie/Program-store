@@ -14,7 +14,7 @@ def get_categories():
         categories = db.session.query(Category).all()
     except:
         return {"success": False, "message": "Something went wrong"}, 500
-    return {"success": True, "categories": [category.name for category in categories]}
+    return {"success": True, "categories": [category.to_dict() for category in categories]}
 
 
 @bp.route("/games")
@@ -263,5 +263,54 @@ def delete_comment():
         return jsonify({"success": False, "message": "Bad values"}), 400
 
     db.session.delete(comment)
+    db.session.commit()
+    return jsonify({"success": True})
+
+
+@bp.route("/delete_category", methods=["DELETE"])
+def delete_category():
+    if not current_user.is_authenticated:
+        return jsonify({"success": False, "message": "User mush be logged in"}), 403
+    else:
+        if not current_user.is_admin:
+            return jsonify({"success": False, "message": "User must be admin"}), 403
+    try:
+        category_name = request.args.get("name", type=str)
+        category = db.session.query(Category).filter_by(name=category_name).first()
+        if not category:
+            return jsonify({"success": False, "message": "No category with such id"}), 404
+    except ValueError or TypeError:
+        return jsonify({"success": False, "message": "Bad values"}), 400
+
+    if category.games:
+        return jsonify({"success": False, "message": "Can't delete category that has games. "
+                                                     "Change category for those games and retry"}), 409
+    db.session.delete(category)
+    db.session.commit()
+    return jsonify({"success": True})
+
+
+@bp.route("/rename_category", methods=["POST"])
+def rename_category():
+    if not current_user.is_authenticated:
+        return jsonify({"success": False, "message": "User mush be logged in"}), 403
+    else:
+        if not current_user.is_admin:
+            return jsonify({"success": False, "message": "User must be admin"}), 403
+    try:
+        new_category_name = request.args.get("name", type=str)
+        category_id = request.args.get("id", type=int)
+        category = db.session.query(Category).filter_by(id=category_id).first()
+        if not category:
+            return jsonify({"success": False, "message": "No category with such id"}), 404
+    except ValueError or TypeError:
+        return jsonify({"success": False, "message": "Bad values"}), 400
+
+    existing_category = db.session.query(Category). \
+        filter(Category.name == new_category_name, Category.id != category_id).first()
+    if existing_category:
+        return jsonify({"success": False, "message": "Category with the same name exists"}), 409
+
+    category.name = new_category_name
     db.session.commit()
     return jsonify({"success": True})
