@@ -104,6 +104,7 @@ $(document).ready(function(){
             uploadedFiles.push(file);
 
             var row = $('<tr>');
+            row.data('filename', file.name);
 
             var iconColumn = $('<td>').addClass('table-column');
             var icon;
@@ -168,17 +169,26 @@ $(document).ready(function(){
             $('.files-table tbody').append(row);
         }
 
+        $('.files-table').off('click', '#icon-remove');
+
         // Event delegation to handle remove file icon click
         $('.files-table').on('click', '#icon-remove', function() {
-            var index = $(this).closest('tr').index(); // Get index of the row to remove
-            var removedFile = uploadedFiles.splice(index - 1, 1)[0]; // Remove file from uploadedFiles array
-            // Decrement the appropriate count
-            if (removedFile.name.endsWith('.apk')) {
-                apkCount--;
-            } else if (removedFile.name.endsWith('.rar') || removedFile.name.endsWith('.zip')) {
-                archiveCount--;
+            var fileName = $(this).closest('tr').data('filename'); // Assuming you have a class 'file-name' in your table row for file names
+            var removedFileIndex = uploadedFiles.findIndex(file => file.name === fileName); // Find the index of the file with the matching name
+
+            if (removedFileIndex !== -1) { // If the file was found in the array
+                var removedFile = uploadedFiles.splice(removedFileIndex, 1)[0]; // Remove file from uploadedFiles array
+                // Decrement the appropriate count
+                if (removedFile.name.endsWith('.apk')) {
+                    apkCount--;
+                } else if (removedFile.name.endsWith('.rar') || removedFile.name.endsWith('.zip')) {
+                    archiveCount--;
+                }
+                $(this).closest('tr').remove(); // Remove the row from the table
+            } else {
+                console.log('File not found in the array');
             }
-            $(this).closest('tr').remove(); // Remove the row from the table
+            console.log(uploadedFiles);
         });
 
         // Handle change in file type select
