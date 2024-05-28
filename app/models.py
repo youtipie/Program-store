@@ -76,9 +76,9 @@ class Game(db.Model):
 
     is_paid = db.Column(db.Boolean, nullable=False)
     version = db.Column(db.String(50))
-    apk_name = db.Column(db.String(200), unique=True, nullable=False)
+    apk_name = db.Column(db.String(200), nullable=False)
     apk_size = db.Column(db.Float, nullable=False)
-    cache_name = db.Column(db.String(200), unique=True)
+    cache_name = db.Column(db.String(200))
     cache_size = db.Column(db.Float, default=0)
     folder_name = db.Column(db.String(200), nullable=False, unique=True)
     images = relationship('Image', backref='game', lazy=True)
