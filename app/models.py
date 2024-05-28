@@ -125,6 +125,7 @@ class Game(db.Model):
             "cache_name": self.cache_name,
             "cache_size": self.cache_size,
             "images": [generate_public_url("data/" + image.path) for image in self.images],
+            "images_names": [image.path.split("/")[-1] for image in self.images],
             "rating": self.rating,
             "popularity": self.popularity,
             "game_url": f"game?id={self.id}",

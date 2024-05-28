@@ -1,11 +1,16 @@
+import json
+import uuid
+
 from flask import render_template, request, jsonify
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 from app import db
-from app.aws import upload_avatar, upload_file, replace_special_characters
+from app.aws import upload_avatar, upload_file, swap_files, delete_file, move_and_rename_file, \
+    replace_special_characters
 from app.models import User, Game, Comment, Category, Image
-from app.main.forms import PasswordForm, EmailForm, AvatarForm, CommentForm, AddGameForm
+from app.main.forms import PasswordForm, EmailForm, AvatarForm, CommentForm, AddGameForm, ChangeGameForm
 from app.main import bp
+from werkzeug.datastructures.file_storage import FileStorage
 import os
 
 
@@ -148,4 +153,102 @@ def add_game():
 
         errors = form.errors
         return jsonify({"errors": errors}), 400
+    return render_template("pageofadmin.html", form=form)
+
+
+@bp.route('/edit_game/<int:game_id>', methods=['GET', 'POST'])
+def edit_game(game_id):
+    game = db.session.query(Game).filter_by(id=game_id).first()
+    if not game:
+        return jsonify({"success": False, "message": "No game with such id"})
+    form = ChangeGameForm(obj=game)
+    form.game_id.data = game.id
+    if form.validate_on_submit():
+        original_files = game.to_dict().get("images_names")
+        original_files.extend([game.apk_name, "poster.jpg"])
+        if game.cache_name:
+            original_files.append(game.cache_name)
+
+        new_files = request.files.getlist('files[]')
+        existing_files = json.loads(request.form.get('existing_filenames'))
+        types = request.form.getlist('types')
+        title = form.title.data
+        description = form.description.data
+
+        category_name = request.form.get("category")
+        new_category_name = request.form.get("new_category")
+
+        if new_category_name:
+            if Category.query.filter(Category.name.ilike(new_category_name)).first():
+                return jsonify({"errors": {"description": ["Category with such name exists!"]}
+                                }), 400
+            category = Category(name=new_category_name)
+            db.session.add(category)
+        else:
+            category = db.session.query(Category).filter_by(name=category_name).first()
+
+        version = request.form.get('version')
+
+        game.title = title
+        game.category = category
+        game.description = description
+        game.version = version
+        game.is_paid = request.form.get("subscription") == "on"
+        game.update_last_change()
+
+        for file in original_files:
+            if file not in existing_files:
+                if file.endswith(".apk") or file.endswith(".rar") or file.endswith(".zip") or file == "poster.jpg":
+                    delete_file(f"data/{game.folder_name}/{file}")
+                else:
+                    delete_file(f"data/{game.folder_name}/images/{file}")
+                    game.delete_image_by_name(file)
+
+        switch_poster_image = True
+        for file, filetype in zip(existing_files + new_files, types):
+            if isinstance(file, FileStorage):
+                filename = secure_filename(file.filename)
+                if filetype == "image":
+                    path = f"{game.folder_name}/images/{filename}"
+                    game.images.append(Image(path=path))
+                    upload_file(file, f"data/{path}")
+                elif filetype == "poster":
+                    upload_file(file, f"data/{game.folder_name}/poster.jpg")
+                    switch_poster_image = False
+                elif filetype == "apk":
+                    game.apk_name = filename
+                    game.apk_size = get_file_size(file)
+                    upload_file(file, f"data/{game.folder_name}/{filename}")
+                elif filetype == "cache":
+                    game.cache_name = filename
+                    game.cache_size = get_file_size(file)
+                    upload_file(file, f"data/{game.folder_name}/{filename}")
+            else:
+                if filetype == "image":
+                    if file == "poster.jpg":
+                        if switch_poster_image:
+                            print("Poster <-> image")  # Pass for now, we will change it later
+                        else:
+                            print("Poster -> image")
+                            move_and_rename_file(f"data/{game.folder_name}/poster.jpg",
+                                                 f"data/{game.folder_name}/images/{str(uuid.uuid4())}.jpg")
+                    else:
+                        print("Pass")
+                elif filetype == "poster":
+                    if file == "poster.jpg":
+                        print("Pass")
+                    else:
+                        if switch_poster_image:
+                            print("Poster <-> image")
+                            swap_files(f"data/{game.folder_name}/poster.jpg", f"data/{game.folder_name}/images/{file}")
+                        else:
+                            print("Image -> poster")
+                            move_and_rename_file(f"data/{game.folder_name}/images/{file}",
+                                                 f"data/{game.folder_name}/poster.jpg")
+                else:
+                    pass  # Other files don't need to change
+
+        db.session.commit()
+        return jsonify({"message": "Game added successfully"})
+
     return render_template("pageofadmin.html", form=form)
