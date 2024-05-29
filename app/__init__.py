@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_caching import Cache
 from config import Config
 from redis import Redis
 import rq
@@ -13,6 +14,7 @@ import rq
 db = SQLAlchemy()
 migrate = Migrate()
 mail = Mail()
+cache = Cache()
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
 login_manager.login_message = "Вам потрібно увійти, щоб відвідати цю сторінку!"
@@ -26,6 +28,7 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     login_manager.init_app(app)
     mail.init_app(app)
+    cache.init_app(app, config={"CACHE_TYPE": "redis", "CACHE_REDIS_URL": app.config["REDIS_URL"]})
     with app.app_context():
         db.create_all()
     app.redis = Redis.from_url(app.config["REDIS_URL"])

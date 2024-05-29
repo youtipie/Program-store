@@ -1,7 +1,7 @@
 from flask import current_app, request, url_for, jsonify, redirect
 from flask_login import current_user
 from app.aws import delete_folder
-from app import db
+from app import db, cache
 from app.models import User, Category, Game, Comment, UserGameRating
 from app.api import bp
 from sqlalchemy import func, select
@@ -9,6 +9,7 @@ import json
 
 
 @bp.route("/categories")
+@cache.cached(600, key_prefix="get_categories")
 def get_categories():
     try:
         categories = db.session.query(Category).all()
@@ -18,6 +19,7 @@ def get_categories():
 
 
 @bp.route("/games")
+@cache.cached(600, key_prefix="get_games", query_string=True)
 def get_games():
     db.session.execute(select(func.set_limit("0.05")))
     try:
@@ -95,6 +97,7 @@ def get_games():
 
 
 @bp.route("/game")
+@cache.cached(600, key_prefix="get_game", query_string=True)
 def get_game():
     try:
         id = request.args.get("id", None, type=int)
@@ -119,10 +122,12 @@ def add_popularity():
         return jsonify({"success": False, "message": "Bad values"}), 400
     game.popularity += 1
     db.session.commit()
+    cache.clear()
     return {"success": True}, 200
 
 
 @bp.route("/comments")
+@cache.cached(600, key_prefix="get_comments", query_string=True)
 def get_comments():
     try:
         page = request.args.get("page", 1, type=int)
@@ -180,6 +185,7 @@ def rate_game():
     if game not in [g.game for g in user.games_rated]:
         db.session.add(UserGameRating(user=user, game=game, rating=rating))
         db.session.commit()
+        cache.clear()
         return jsonify({"success": True, "message": "Rating successfully added"}), 200
     else:
         return jsonify({"success": False, "message": "User already rated this game"}), 403
@@ -240,6 +246,7 @@ def delete_game():
     except ValueError or TypeError:
         return jsonify({"success": False, "message": "Bad values"}), 400
     if delete_game_helper(game):
+        cache.clear()
         return jsonify({"success": True})
     else:
         return jsonify({"success": False, "message": "Some unexpected error occured"}), 500
@@ -264,6 +271,7 @@ def delete_comment():
 
     db.session.delete(comment)
     db.session.commit()
+    cache.clear()
     return jsonify({"success": True})
 
 
@@ -287,6 +295,7 @@ def delete_category():
                                                      "Change category for those games and retry"}), 409
     db.session.delete(category)
     db.session.commit()
+    cache.clear()
     return jsonify({"success": True})
 
 
@@ -313,4 +322,5 @@ def rename_category():
 
     category.name = new_category_name
     db.session.commit()
+    cache.clear()
     return jsonify({"success": True})

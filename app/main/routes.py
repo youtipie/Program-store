@@ -1,10 +1,7 @@
-import json
-import uuid
-
 from flask import render_template, request, jsonify
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
-from app import db
+from app import db, cache
 from app.aws import upload_avatar, upload_file, swap_files, delete_file, move_and_rename_file, \
     replace_special_characters
 from app.models import User, Game, Comment, Category, Image
@@ -12,6 +9,8 @@ from app.main.forms import PasswordForm, EmailForm, AvatarForm, CommentForm, Add
 from app.main import bp
 from werkzeug.datastructures.file_storage import FileStorage
 import os
+import json
+import uuid
 
 
 @bp.route("/")
@@ -29,6 +28,7 @@ def game_page():
                               game=db.session.query(Game).filter_by(id=request.args.get("id")).first())
             db.session.add(comment)
             db.session.commit()
+            cache.clear()
             return jsonify({"message": "Comment submitted successfully"})
 
         errors = form.errors
@@ -149,6 +149,7 @@ def add_game():
                                 }), 500
             db.session.add(game)
             db.session.commit()
+            cache.clear()
             return jsonify({"message": "Game added successfully"})
 
         errors = form.errors
@@ -249,6 +250,7 @@ def edit_game(game_id):
                     pass  # Other files don't need to change
 
         db.session.commit()
+        cache.clear()
         return jsonify({"message": "Game added successfully"})
 
     return render_template("pageofadmin.html", form=form)
